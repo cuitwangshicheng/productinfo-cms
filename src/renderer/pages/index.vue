@@ -11,7 +11,7 @@
             </div>
           </td>
           <td>
-            <div class="menu_item">
+            <div class="menu_item" @click="goSearchPage">
               <img src="../assets/images/search_icon.png" class="item_image"/>
               <div class="item_name">信息检索</div>
             </div>
@@ -34,6 +34,9 @@ export default {
   methods: {
     goAddPage () {
       this.$router.push('/add')
+    },
+    goSearchPage () {
+      this.$router.push('/search')
     }
   }
 }

@@ -16,6 +16,11 @@ export default new Router({
       component: require('@/pages/add_info').default
     },
     {
+      path: '/search',
+      name: 'search-page',
+      component: require('@/pages/add_search').default
+    },
+    {
       path: '*',
       redirect: '/'
     }
