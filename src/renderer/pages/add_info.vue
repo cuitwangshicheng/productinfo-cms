@@ -187,11 +187,7 @@ export default {
   },
   methods: {
     saveInfo () {
-      this.$db.cmsData.loadDatabase()
-      // this.$db.cmsData.find({}, (list) => {
-      //   console.log(list)
-      // })
-      this.$db.cmsData.insert(this.formObj, function (err, doc) {
+      this.$db.insertOne(this.formObj, function (err, doc) {
         console.log(err, doc)
       })
     },

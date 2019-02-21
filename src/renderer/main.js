@@ -6,9 +6,11 @@ import router from './router'
 import store from './store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import db from './store/db'
+const MongodbModel = require('./store/mongodb')
 
-Vue.prototype.$db = db.db
+const db = new MongodbModel('cmsDB')
+Vue.prototype.$db = db
+db.init()
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios
