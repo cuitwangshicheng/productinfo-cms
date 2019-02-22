@@ -113,15 +113,39 @@ function mongodbModel (dbname) {
     })
   }
   /* 分页查询 */
-  /* data-查询条件；pageNo-当前页数；-pageSize-每页条数 */
-  this.findByPages = function (data, pageSize, pageNo, callback) {
-    MongoClient.connect(DB_CONN_STR, function (err, db) {
+  /* queryStr-查询条件；pageNo-当前页数；-pageSize-每页条数 */
+  this.findByPages = function (queryStr, pageSize, pageNo, callback) {
+    MongoClient.connect(DB_CONN_STR, (err, db) => {
       if (err) {
         throw err
       }
       const dbo = db.db(dbname)
       const collection = dbo.collection(dbname)
-      collection.find(data).skip((pageNo - 1) * pageSize).limit(pageSize).toArray(function (err, data) {
+      collection.find(queryStr).skip((pageNo - 1) * pageSize).limit(pageSize).explain().toArray((err, data) => {
+        let res = {
+          data: data
+        }
+        this.find(queryStr, (error, list) => {
+          if (error) {
+            throw error
+          }
+          res.totalRow = list.length
+          res.totalPages = Math.ceil(list.length / pageSize)
+          callback(err, res)
+        })
+      })
+    })
+  }
+  /* 查询总条数 */
+  /* data-查询条件 */
+  this.findCount = function (data, callback) {
+    MongoClient.connect(DB_CONN_STR, (err, db) => {
+      if (err) {
+        throw err
+      }
+      const dbo = db.db(dbname)
+      const collection = dbo.collection(dbname)
+      collection.find(data).count().toArray((err, data) => {
         callback(err, data)
       })
     })
