@@ -226,46 +226,28 @@
           let option = {}
           option.fileName = '项目信息汇总' + new Date().getFullYear() + '-' + new Date().getMonth() + '-' + new Date().getDate()
           let datas = []
-          let rowDatas = []
           r.map(item => {
-            delete item._id
-            let colDatas = []
-            for (let i in item) {
-              console.log(i)
-              console.log('--------')
-              if (i === 'pCheckFlag') {
-                if (item[i] === false) {
-                  colDatas.push('未验收')
-                } else if (item[i] === true) {
-                  colDatas.push('已验收')
-                } else {
-                  colDatas.push('')
-                }
-              } else if (i === 'pPrideFlag') {
-                if (item[i] === false) {
-                  colDatas.push('未获奖')
-                } else if (item[i] === true) {
-                  colDatas.push('获奖')
-                } else {
-                  colDatas.push('')
-                }
-              } else if (i === 'pOtherCompanyFlag') {
-                if (item[i] === false) {
-                  colDatas.push('有')
-                } else if (item[i] === true) {
-                  colDatas.push('无')
-                } else {
-                  colDatas.push('')
-                }
-              } else {
-                colDatas.push(item[i])
-              }
+            if (item.pOtherCompanyFlag === true) {
+              item.pOtherCompanyFlag = '有'
+            } else {
+              item.pOtherCompanyFlag = '无'
             }
-            rowDatas.push(colDatas)
+            if (item.pPrideFlag === true) {
+              item.pPrideFlag = '获奖'
+            } else {
+              item.pPrideFlag = '未获奖'
+            }
+            if (item.pCheckFlag === true) {
+              item.pPrideFlag = '已验收'
+            } else {
+              item.pPrideFlag = '未验收'
+            }
           })
           datas.push({
-            sheetData: rowDatas,
-            sheetHeader: ['项目编号', '项目名称', '项目负责人', '项目级别', '项目类别', '承担单位', '立项年份', '研究起始日期', '研究结束日期', '经费（万元）', '参加人员', '是否有合作单位', '合作单位名称', '是否验收', '验收时间', '是否获奖', '获奖情况', '项目简介']
+            sheetData: r,
+            sheetFilter: ['pSeriesNum', 'pName', 'pCharge', 'pLevel', 'pType', 'pOrg', 'pYear', 'pStartDate', 'pEndDate', 'pMoney', 'pMembers', 'pOtherCompanyFlag', 'pOtherCompanyName', 'pCheckFlag', 'pCheckTime', 'pPrideFlag', 'pPrideContent', 'pDes'],
+            sheetHeader: ['项目编号', '项目名称', '项目负责人', '项目级别', '项目类别', '承担单位', '立项年份', '研究起始日期', '研究结束日期', '经费（万元）', '参加人员', '是否有合作单位', '合作单位名称', '是否验收', '验收时间', '是否获奖', '获奖情况', '项目简介'],
+            columnWidths: [4, 6, 4, 3, 4, 10, 4, 6, 6, 4, 10, 8, 10, 5, 6, 5, 10, 20]
           })
           option.datas = datas
           console.log(option)
