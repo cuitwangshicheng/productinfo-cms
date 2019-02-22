@@ -318,6 +318,14 @@ acorn@^6.0.5:
   resolved "http://registry.npm.taobao.org/acorn/download/acorn-6.1.0.tgz#b0a3be31752c97a0f7013c5f4903b71a05db6818"
   integrity sha1-sKO+MXUsl6D3ATxfSQO3GgXbaBg=
 
+adler-32@~1.2.0:
+  version "1.2.0"
+  resolved "http://registry.npm.taobao.org/adler-32/download/adler-32-1.2.0.tgz#6a3e6bf0a63900ba15652808cb15c6813d1a5f25"
+  integrity sha1-aj5r8KY5ALoVZSgIyxXGgT0aXyU=
+  dependencies:
+    exit-on-epipe "~1.0.1"
+    printj "~1.1.0"
+
 ajv-errors@^1.0.0:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/ajv-errors/download/ajv-errors-1.0.1.tgz#f35986aceb91afadec4102fbd85014950cefa64d"
@@ -1631,6 +1639,11 @@ binary-search-tree@0.2.5:
   dependencies:
     underscore "~1.4.4"
 
+blob.js@^1.0.1:
+  version "1.0.1"
+  resolved "http://registry.npm.taobao.org/blob.js/download/blob.js-1.0.1.tgz#547b449b252c855313e837b53d15b41d000ea1d2"
+  integrity sha1-VHtEmyUshVMT6De1PRW0HQAOodI=
+
 block-stream@*:
   version "0.0.9"
   resolved "http://registry.npm.taobao.org/block-stream/download/block-stream-0.0.9.tgz#13ebfe778a03205cfe03751481ebb4b3300c126a"
@@ -2035,6 +2048,14 @@ center-align@^0.1.1:
     align-text "^0.1.3"
     lazy-cache "^1.0.3"
 
+cfb@~1.0.2:
+  version "1.0.8"
+  resolved "http://registry.npm.taobao.org/cfb/download/cfb-1.0.8.tgz#77f213493d697d754fd9c0f5511eab5ad72d02cf"
+  integrity sha1-d/ITST1pfXVP2cD1UR6rWtctAs8=
+  dependencies:
+    commander "^2.14.1"
+    printj "~1.1.2"
+
 cfonts@^2.1.2:
   version "2.4.2"
   resolved "http://registry.npm.taobao.org/cfonts/download/cfonts-2.4.2.tgz#fa94278e9163d4e31ffa4668d621cf2a197894a4"
@@ -2297,6 +2318,14 @@ code-point-at@^1.0.0:
   resolved "http://registry.npm.taobao.org/code-point-at/download/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
 
+codepage@~1.12.0:
+  version "1.12.2"
+  resolved "http://registry.npm.taobao.org/codepage/download/codepage-1.12.2.tgz#fd4424448c8bf1db5d7e01f9ecf9e8346582a195"
+  integrity sha1-/UQkRIyL8dtdfgH57PnoNGWCoZU=
+  dependencies:
+    commander "~2.14.1"
+    exit-on-epipe "~1.0.1"
+
 collection-visit@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/collection-visit/download/collection-visit-1.0.0.tgz#4bc0373c164bc3291b4d368c829cf1a80a59dca0"
@@ -2382,6 +2411,21 @@ commander@2.9.x:
   integrity sha1-nJkJQXbhIkDLItbFFGCYQA/g99Q=
   dependencies:
     graceful-readlink ">= 1.0.0"
+
+commander@^2.14.1:
+  version "2.19.0"
+  resolved "http://registry.npm.taobao.org/commander/download/commander-2.19.0.tgz#f6198aa84e5b83c46054b94ddedbfed5ee9ff12a"
+  integrity sha1-9hmKqE5bg8RgVLlN3tv+1e6f8So=
+
+commander@~2.13.0:
+  version "2.13.0"
+  resolved "http://registry.npm.taobao.org/commander/download/commander-2.13.0.tgz#6964bca67685df7c1f1430c584f07d7597885b9c"
+  integrity sha1-aWS8pnaF33wfFDDFhPB9dZeIW5w=
+
+commander@~2.14.1:
+  version "2.14.1"
+  resolved "http://registry.npm.taobao.org/commander/download/commander-2.14.1.tgz#2235123e37af8ca3c65df45b026dbd357b01b9aa"
+  integrity sha1-IjUSPjevjKPGXfRbAm29NXsBuao=
 
 commondir@^1.0.1:
   version "1.0.1"
@@ -2565,6 +2609,14 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "http://registry.npm.taobao.org/core-util-is/download/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
   integrity sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
+
+crc-32@~1.2.0:
+  version "1.2.0"
+  resolved "http://registry.npm.taobao.org/crc-32/download/crc-32-1.2.0.tgz#cb2db6e29b88508e32d9dd0ec1693e7b41a18208"
+  integrity sha1-yy224puIUI4y2d0OwWk+e0Ghggg=
+  dependencies:
+    exit-on-epipe "~1.0.1"
+    printj "~1.1.0"
 
 create-ecdh@^4.0.0:
   version "4.0.3"
@@ -3674,6 +3726,11 @@ exit-hook@^1.0.0:
   resolved "http://registry.npm.taobao.org/exit-hook/download/exit-hook-1.1.1.tgz#f05ca233b48c05d54fff07765df8507e95c02ff8"
   integrity sha1-8FyiM7SMBdVP/wd2XfhQfpXAL/g=
 
+exit-on-epipe@~1.0.1:
+  version "1.0.1"
+  resolved "http://registry.npm.taobao.org/exit-on-epipe/download/exit-on-epipe-1.0.1.tgz#0bdd92e87d5285d267daa8171d0eb06159689692"
+  integrity sha1-C92S6H1ShdJn2qgXHQ6wYVlolpI=
+
 expand-brackets@^2.1.4:
   version "2.1.4"
   resolved "http://registry.npm.taobao.org/expand-brackets/download/expand-brackets-2.1.4.tgz#b77735e315ce30f6b6eff0f83b04151a22449622"
@@ -3875,6 +3932,11 @@ file-loader@^1.1.11:
     loader-utils "^1.0.2"
     schema-utils "^0.4.5"
 
+file-saver@^1.3.3:
+  version "1.3.8"
+  resolved "http://registry.npm.taobao.org/file-saver/download/file-saver-1.3.8.tgz#e68a30c7cb044e2fb362b428469feb291c2e09d8"
+  integrity sha1-5oowx8sETi+zYrQoRp/rKRwuCdg=
+
 fill-range@^4.0.0:
   version "4.0.0"
   resolved "http://registry.npm.taobao.org/fill-range/download/fill-range-4.0.0.tgz#d544811d428f98eb06a63dc402d2403c328c38f7"
@@ -4022,6 +4084,11 @@ forwarded@~0.1.2:
   version "0.1.2"
   resolved "http://registry.npm.taobao.org/forwarded/download/forwarded-0.1.2.tgz#98c23dab1175657b8c0573e8ceccd91b0ff18c84"
   integrity sha1-mMI9qxF1ZXuMBXPozszZGw/xjIQ=
+
+frac@~1.1.2:
+  version "1.1.2"
+  resolved "http://registry.npm.taobao.org/frac/download/frac-1.1.2.tgz#3d74f7f6478c88a1b5020306d747dc6313c74d0b"
+  integrity sha1-PXT39keMiKG1AgMG10fcYxPHTQs=
 
 fragment-cache@^0.2.1:
   version "0.2.1"
@@ -5097,6 +5164,16 @@ js-base64@^2.1.8, js-base64@^2.1.9:
   version "2.5.1"
   resolved "http://registry.npm.taobao.org/js-base64/download/js-base64-2.5.1.tgz#1efa39ef2c5f7980bb1784ade4a8af2de3291121"
   integrity sha1-Hvo57yxfeYC7F4St5KivLeMpESE=
+
+js-export-excel@^1.1.2:
+  version "1.1.2"
+  resolved "http://registry.npm.taobao.org/js-export-excel/download/js-export-excel-1.1.2.tgz#ee9a69992c8c5ff5c432ee6821be84ab053c1af4"
+  integrity sha1-7pppmSyMX/XEMu5oIb6EqwU8GvQ=
+  dependencies:
+    blob.js "^1.0.1"
+    file-saver "^1.3.3"
+    script-loader "0.7.2"
+    xlsx "^0.11.17"
 
 js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "3.0.2"
@@ -7071,6 +7148,11 @@ pretty-error@^2.0.2:
     renderkid "^2.0.1"
     utila "~0.4"
 
+printj@~1.1.0, printj@~1.1.2:
+  version "1.1.2"
+  resolved "http://registry.npm.taobao.org/printj/download/printj-1.1.2.tgz#d90deb2975a8b9f600fb3a1c94e3f4c53c78a222"
+  integrity sha1-2Q3rKXWoufYA+zoclOP0xTx4oiI=
+
 private@^0.1.6, private@^0.1.8, private@~0.1.5:
   version "0.1.8"
   resolved "http://registry.npm.taobao.org/private/download/private-0.1.8.tgz#2381edb3689f7a53d653190060fcf822d2f368ff"
@@ -7241,6 +7323,11 @@ raw-body@2.3.3:
     http-errors "1.6.3"
     iconv-lite "0.4.23"
     unpipe "1.0.0"
+
+raw-loader@~0.5.1:
+  version "0.5.1"
+  resolved "http://registry.npm.taobao.org/raw-loader/download/raw-loader-0.5.1.tgz#0c3d0beaed8a01c966d9787bf778281252a979aa"
+  integrity sha1-DD0L6u2KAclm2Xh793goElKpeao=
 
 rc@^1.0.1, rc@^1.1.6, rc@^1.2.1, rc@^1.2.7:
   version "1.2.8"
@@ -7749,6 +7836,13 @@ schema-utils@^1.0.0:
     ajv-errors "^1.0.0"
     ajv-keywords "^3.1.0"
 
+script-loader@0.7.2:
+  version "0.7.2"
+  resolved "http://registry.npm.taobao.org/script-loader/download/script-loader-0.7.2.tgz#2016db6f86f25f5cf56da38915d83378bb166ba7"
+  integrity sha1-IBbbb4byX1z1baOJFdgzeLsWa6c=
+  dependencies:
+    raw-loader "~0.5.1"
+
 scss-tokenizer@^0.2.3:
   version "0.2.3"
   resolved "http://registry.npm.taobao.org/scss-tokenizer/download/scss-tokenizer-0.2.3.tgz#8eb06db9a9723333824d3f5530641149847ce5d1"
@@ -8118,6 +8212,13 @@ sprintf-js@~1.0.2:
   version "1.0.3"
   resolved "http://registry.npm.taobao.org/sprintf-js/download/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
+
+ssf@~0.10.1:
+  version "0.10.2"
+  resolved "http://registry.npm.taobao.org/ssf/download/ssf-0.10.2.tgz#65b2b4fcdfd967bc8e8383a41349009893115976"
+  integrity sha1-ZbK0/N/ZZ7yOg4OkE0kAmJMRWXY=
+  dependencies:
+    frac "~1.1.2"
 
 sshpk@^1.7.0:
   version "1.16.1"
@@ -9211,6 +9312,19 @@ xdg-basedir@^3.0.0:
   version "3.0.0"
   resolved "http://registry.npm.taobao.org/xdg-basedir/download/xdg-basedir-3.0.0.tgz#496b2cc109eca8dbacfe2dc72b603c17c5870ad4"
   integrity sha1-SWsswQnsqNus/i3HK2A8F8WHCtQ=
+
+xlsx@^0.11.17:
+  version "0.11.19"
+  resolved "http://registry.npm.taobao.org/xlsx/download/xlsx-0.11.19.tgz#2f019d9df756f6345aac5bc1af2442cf22a025e3"
+  integrity sha1-LwGdnfdW9jRarFvBryRCzyKgJeM=
+  dependencies:
+    adler-32 "~1.2.0"
+    cfb "~1.0.2"
+    codepage "~1.12.0"
+    commander "~2.13.0"
+    crc-32 "~1.2.0"
+    exit-on-epipe "~1.0.1"
+    ssf "~0.10.1"
 
 xml-char-classes@^1.0.0:
   version "1.0.0"

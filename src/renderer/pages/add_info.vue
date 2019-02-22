@@ -1,9 +1,12 @@
 <template>
   <div class="page">
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>科研项目信息录入</el-breadcrumb-item>
+    </el-breadcrumb>
     <div class="content">
-      <div class="title">科研项目信息录入</div>
       <div class="form">
-        <el-form size="mini" label-width="120px" style="width:1100px;">
+        <el-form size="mini" label-width="120px">
           <el-row>
             <el-col :span="8">
               <el-form-item label="项目编号" required>
@@ -23,7 +26,7 @@
           </el-row>
           <el-row>
             <el-col :span="8">
-              <el-form-item label="项目类别" required>
+              <el-form-item label="项目级别" required>
                 <el-select v-model="formObj.pLevel" filterable default-first-option placeholder="请选择项目类别">
                   <el-option v-for="item in levelList" :key="item" :label="item" :value="item"></el-option>
                 </el-select>
@@ -36,7 +39,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="承担单位" required>
-                <el-select v-model="formObj.pOrg" filterable default-first-option placeholder="请选择项目类别">
+                <el-select v-model="formObj.pOrg" filterable default-first-option placeholder="请选择承担单位">
                   <el-option v-for="item in orgList" :key="item" :label="item" :value="item"></el-option>
                 </el-select>
               </el-form-item>
@@ -142,8 +145,12 @@
         </el-form>
       </div>
       <div class="btn_area">
-        <el-button type="primary" @click="saveInfo">保存</el-button>
-        <el-button @click="goBack">返回</el-button>
+        <el-form :inline="true" size="mini">
+          <el-form-item>
+            <el-button type="primary" @click="saveInfo">保存</el-button>
+            <el-button @click="goBack">返回</el-button>
+          </el-form-item>
+        </el-form>
       </div>
     </div>
   </div>
@@ -199,24 +206,10 @@ export default {
 </script>
 <style lang='scss' scoped>
   .page{
-    width:100%;
-    height:100%;
+    padding: 20px;
     .content{
-      width:1120px;
-      text-align:center;
-      margin-left:auto;
-      margin-right:auto;
-      .title{
-        font-size:20px;
-        font-size:bold;
-        height:70px;
-        line-height: 70px;
-      }
+      margin-top: 20px;
       .form{
-        border:1px solid #ccc;
-        padding-top:20px;
-        padding-bottom:20px;
-        width:1118px;
         text-align: left;
       }
       .btn_area{
