@@ -177,7 +177,7 @@ export default {
         pOtherCompanyFlag: false,
         pOtherCompanyName: '',
         pMoney: '',
-        pMemebers: '',
+        pMembers: '',
         pCheckFlag: false,
         pCheckTime: '',
         pPrideFlag: false,
