@@ -93,8 +93,14 @@
             <div class="main">
                 <el-table
                         :data="tableData"
+                        v-loading="tableLoading"
                         style="width: 100%"
                 >
+                    <el-table-column
+                            label="序号"
+                            type="index"
+                            width="50">
+                    </el-table-column>
                     <el-table-column
                             prop="pYear"
                             label="立项年份"
@@ -161,6 +167,17 @@
                             :formatter="formatter"
                             min-width="150">
                     </el-table-column>
+                    <el-table-column label="操作">
+                        <template slot-scope="scope">
+                            <!--<el-button-->
+                                    <!--size="mini"-->
+                                    <!--@click="handleEdit(scope.$index, scope.row)">编辑</el-button>-->
+                            <el-button
+                                    size="mini"
+                                    type="danger"
+                                    @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                        </template>
+                    </el-table-column>
                 </el-table>
                 <el-pagination
                         @size-change="handleSizeChange"
@@ -199,6 +216,7 @@
         startYear: 1949,
         lastParams: {},
         // 表格
+        tableLoading: false,
         tableData: [],
         page: 1,
         pageSizes: [20, 40, 60, 80, 100],
@@ -215,6 +233,7 @@
     methods: {
       // 查询
       searchInfo () {
+        this.tableLoading = true
         let {
           pSeriesNum,
           pName,
@@ -253,9 +272,24 @@
         this.$db.findByPages({
           ...params
         }, this.pageSize, this.page, (err, doc) => {
+          this.tableLoading = false
           console.log(err, doc)
           if (!err) {
-            this.tableData = doc
+            const {
+              data,
+              totalRows,
+              pageSize,
+              pageNo
+            } = doc
+            this.tableData = data
+            this.total = totalRows
+            this.pageSize = pageSize
+            this.page = pageNo
+          } else {
+            this.$message({
+              type: 'error',
+              message: '查询失败，请稍后重试'
+            })
           }
         })
       },
@@ -360,12 +394,49 @@
         }
         return fmt
       },
+      // 删除
+      handleDelete (index, row) {
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.handleDeleteSure(index, row)
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
+      },
+      handleDeleteSure (index, row) {
+        this.$db.deleteOne(row, (err, doc) => {
+          console.log(err, doc)
+          if (!err) {
+            this.$message({
+              type: 'success',
+              message: '删除成功'
+            })
+            this.handleCurrentChange(1)
+          } else {
+            this.$message({
+              type: 'error',
+              message: '删除失败，请稍后重试'
+            })
+          }
+        })
+      },
       // 分页
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
+        this.page = 1
+        this.pageSize = val
+        this.searchInfo()
       },
       handleCurrentChange (val) {
         console.log(`当前页: ${val}`)
+        this.page = val
+        this.searchInfo()
       }
     }
   }

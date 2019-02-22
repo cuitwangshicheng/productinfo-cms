@@ -6,7 +6,7 @@
     </el-breadcrumb>
     <div class="content">
       <div class="form">
-        <el-form size="mini" label-width="120px" :rules="rules" :model="formObj" ref="ruleForm">
+        <el-form size="mini" label-width="150px" :rules="rules" :model="formObj" ref="ruleForm">
           <el-row>
             <el-col :span="8">
               <el-form-item label="项目编号" prop="pSeriesNum">
@@ -48,7 +48,7 @@
           <el-row>
             <el-col :span="8">
               <el-form-item label="立项年份" prop="pYear">
-                <el-select v-model="formObj.pYear" filterable default-first-option placeholder="请选择立项年份">
+                <el-select v-model="formObj.pYear" clearable filterable default-first-option placeholder="请选择立项年份">
                   <el-option v-for="item in yearList" :key="item" :label="item" :value="item"></el-option>
                 </el-select>
               </el-form-item>
@@ -80,7 +80,7 @@
           </el-row>
           <el-row>
             <el-col :span="8">
-              <el-form-item label="是否有合作单位" prop="pOtherCompanyFlag" label-width="125px">
+              <el-form-item label="是否有合作单位" prop="pOtherCompanyFlag">
                 <el-radio-group v-model="formObj.pOtherCompanyFlag">
                   <el-radio :label="true" border>有</el-radio>
                   <el-radio :label="false" border>无</el-radio>
@@ -104,7 +104,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="验收时间">
-                <el-date-picker :disabled="formObj.pCheckFlag === false" v-model="formObj.pCheckTime" value-format="yyyy-MM-dd"></el-date-picker>
+                <el-date-picker :disabled="formObj.pCheckFlag === false" v-model="formObj.pCheckTime" value-format="yyyy-MM-dd" placeholder="请选择验收时间"></el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>
@@ -149,7 +149,7 @@
       <div class="btn_area">
         <el-form :inline="true" size="mini">
           <el-form-item>
-            <el-button type="primary" @click="saveInfo('ruleForm')">保存</el-button>
+            <el-button type="primary" :disabled="saveDisabled" @click="saveInfo('ruleForm')">保存</el-button>
             <el-button @click="goBack">返回</el-button>
           </el-form-item>
         </el-form>
@@ -227,12 +227,13 @@
           pDes: [
             { required: true, message: '请输入项目简介', trigger: 'blur' }
           ]
-        }
+        },
+        saveDisabled: false
       }
     },
     mounted () {
       const currentYear = new Date().getFullYear()
-      for (let i = this.startYear; i <= currentYear; i++) {
+      for (let i = currentYear; i >= this.startYear; i--) {
         this.yearList.push(i + '年度')
       }
     },
@@ -240,6 +241,7 @@
       saveInfo (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            this.saveDisabled = true
             const {
               pDate
             } = this.formObj
@@ -247,7 +249,19 @@
               pStartDate: new Date(`${pDate[0]} 00:00:00`).getTime() / 1000,
               pEndDate: new Date(`${pDate[1]} 23:59:59`).getTime() / 1000
             })
-            this.$db.insertOne(params, function (err, doc) {
+            this.$db.insertOne(params, (err, doc) => {
+              this.saveDisabled = false
+              if (err) {
+                this.$message({
+                  type: 'error',
+                  message: '信息录入失败，请稍后重试'
+                })
+              } else {
+                this.$message({
+                  type: 'success',
+                  message: '信息录入成功'
+                })
+              }
               console.log(err, doc)
             })
           } else {
@@ -269,6 +283,9 @@
       margin-top: 20px;
       .form{
         text-align: left;
+        .el-radio{
+           margin-right: 0;
+        }
       }
       .btn_area{
         width:100%;
