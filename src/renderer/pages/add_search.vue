@@ -50,6 +50,7 @@
                     <el-form-item>
                         <el-select v-model="formObj.pYear"
                                    filterable
+                                   clearable
                                    default-first-option
                                    placeholder="请选择立项年份">
                             <el-option v-for="item in yearList"
@@ -66,6 +67,7 @@
                     </el-form-item>
                     <el-form-item>
                         <el-select v-model="formObj.pCheckYear"
+                                   clearable
                                    filterable
                                    default-first-option
                                    placeholder="请选择验收年份">
@@ -99,7 +101,7 @@
                             sortable
                             show-overflow-tooltip
                             :formatter="formatter"
-                            min-width="100">
+                            min-width="120">
                     </el-table-column>
                     <el-table-column
                             prop="pSeriesNum"
@@ -107,7 +109,7 @@
                             sortable
                             show-overflow-tooltip
                             :formatter="formatter"
-                            min-width="100">
+                            min-width="120">
                     </el-table-column>
                     <el-table-column
                             prop="pName"
@@ -141,6 +143,20 @@
                     <el-table-column
                             prop="pLevel"
                             label="项目级别"
+                            show-overflow-tooltip
+                            :formatter="formatter"
+                            min-width="150">
+                    </el-table-column>
+                    <el-table-column
+                            prop="pStartDate"
+                            label="研究开始日期"
+                            show-overflow-tooltip
+                            :formatter="formatter"
+                            min-width="150">
+                    </el-table-column>
+                    <el-table-column
+                            prop="pEndDate"
+                            label="研究结束日期"
                             show-overflow-tooltip
                             :formatter="formatter"
                             min-width="150">
@@ -181,6 +197,7 @@
         orgList: ['市局办公室', '应急与减灾处', '科技与预报处', '观测与网络处', '计划财务处', '人事处', '政策法规处', '机关党办', '党组纪检组', '离退办', '气象台', '气候中心', '信息中心', '保障中心', '气象服务中心', '气象科学研究所', '气象安全技术中心', '人工影响天气办公室', '防雷中心', '预警发布中心', '机关服务中心', '财务结算中心', '气象学会', '华云公司', '莱霆公司', '万州区气象局', '黔江区气象局', '涪陵区气象局', '沙坪坝区气象局', '北碚区气象局', '渝北区气象局', '巴南区气象局', '长寿区气象局', '江津区气象局', '合川区气象局', '永川区气象局', '南川区气象局', '綦江区气象局', '大足区气象局', '璧山区气象局', '铜梁区气象局', '潼南区气象局', '荣昌区气象局', '开州区气象局', '梁平区气象局', '武隆区气象局', '城口县气象局', '丰都县气象局', '垫江县气象局', '忠县气象局', '云阳县气象局', '奉节县气象局', '巫山县气象局', '巫溪县气象局', '石柱县气象局', '秀山县气象局', '酉阳县气象局', '彭水县气象局', '万盛经开区气象局'],
         yearList: [],
         startYear: 1949,
+        lastParams: {},
         // 表格
         tableData: [],
         page: 1,
@@ -198,8 +215,48 @@
     methods: {
       // 查询
       searchInfo () {
-        this.$db.findByPages(this.formObj, this.pageSize, this.page, function (err, doc) {
+        let {
+          pSeriesNum,
+          pName,
+          pLevel,
+          pType,
+          pOrg,
+          pCharge,
+          pYear,
+          pStartDate,
+          pEndDate,
+          pCheckYear
+        } = this.formObj
+        let params = {
+          pSeriesNum: {$regex: pSeriesNum},
+          pName: {$regex: pName},
+          pLevel: {$regex: pLevel},
+          pType: {$regex: pType},
+          pOrg: {$regex: pOrg},
+          pCharge: {$regex: pCharge},
+          pYear: {$regex: pYear},
+          pCheckTime: {$regex: pCheckYear}
+        }
+        pStartDate = pStartDate === null ? '' : pStartDate
+        pEndDate = pEndDate === null ? '' : pEndDate
+        if (pStartDate !== '') {
+          Object.assign(params, {
+            pStartDate: {$gte: new Date(`${pStartDate} 00:00:00`).getTime() / 1000}
+          })
+        }
+        if (pEndDate !== '') {
+          Object.assign(params, {
+            pEndDate: {$lte: new Date(`${pEndDate} 23:59:59`).getTime() / 1000}
+          })
+        }
+        this.lastParams = params
+        this.$db.findByPages({
+          ...params
+        }, this.pageSize, this.page, (err, doc) => {
           console.log(err, doc)
+          if (!err) {
+            this.tableData = doc
+          }
         })
       },
       resetSearch () {
@@ -264,8 +321,38 @@
         if (cellValue === undefined || cellValue === null || cellValue === '') {
           return '--'
         } else {
-          return cellValue
+          let returnValue
+          switch (column.property) {
+            case 'pStartDate':
+            case 'pEndDate':
+              returnValue = this.formatDate(new Date(cellValue * 1000), 'yyyy-MM-dd')
+              break
+            default:
+              returnValue = cellValue
+              break
+          }
+          return returnValue
         }
+      },
+      formatDate (date, fmt) {
+        var o = {
+          'M+': date.getMonth() + 1, // 月份
+          'd+': date.getDate(), // 日
+          'h+': date.getHours(), // 小时
+          'm+': date.getMinutes(), // 分
+          's+': date.getSeconds(), // 秒
+          'q+': Math.floor((date.getMonth() + 3) / 3), // 季度
+          'S': date.getMilliseconds() // 毫秒
+        }
+        if (/(y+)/.test(fmt)) {
+          fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
+        }
+        for (var k in o) {
+          if (new RegExp('(' + k + ')').test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)))
+          }
+        }
+        return fmt
       },
       // 分页
       handleSizeChange (val) {

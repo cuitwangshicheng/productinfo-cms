@@ -6,39 +6,39 @@
     </el-breadcrumb>
     <div class="content">
       <div class="form">
-        <el-form size="mini" label-width="120px">
+        <el-form size="mini" label-width="120px" :rules="rules" :model="formObj" ref="ruleForm">
           <el-row>
             <el-col :span="8">
-              <el-form-item label="项目编号" required>
+              <el-form-item label="项目编号" prop="pSeriesNum">
                 <el-input v-model="formObj.pSeriesNum" placeholder="必填项', '如无项目编号则填写：无"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="项目名称" required>
+              <el-form-item label="项目名称" prop="pName">
                 <el-input v-model="formObj.pName" placeholder="必填项', '请填写项目名称"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="项目负责人" required>
+              <el-form-item label="项目负责人" prop="pCharge">
                 <el-input v-model="formObj.pCharge" placeholder="必填项', '请填写项目负责人"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="8">
-              <el-form-item label="项目级别" required>
+              <el-form-item label="项目级别" prop="pLevel">
                 <el-select v-model="formObj.pLevel" filterable default-first-option placeholder="请选择项目类别">
                   <el-option v-for="item in levelList" :key="item" :label="item" :value="item"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="项目类别" required>
+              <el-form-item label="项目类别" prop="pType">
                 <el-input v-model="formObj.pType" placeholder="必填项', '请填写项目类别"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="承担单位" required>
+              <el-form-item label="承担单位" prop="pOrg">
                 <el-select v-model="formObj.pOrg" filterable default-first-option placeholder="请选择承担单位">
                   <el-option v-for="item in orgList" :key="item" :label="item" :value="item"></el-option>
                 </el-select>
@@ -47,26 +47,38 @@
           </el-row>
           <el-row>
             <el-col :span="8">
-              <el-form-item label="立项年份" required>
+              <el-form-item label="立项年份" prop="pYear">
                 <el-select v-model="formObj.pYear" filterable default-first-option placeholder="请选择立项年份">
                   <el-option v-for="item in yearList" :key="item" :label="item" :value="item"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
-              <el-form-item label="研究起始日期" required>
-                <el-date-picker v-model="formObj.pStartDate" placeholder="请选择研究起始日期" value-format="yyyy-MM-dd"></el-date-picker>
+            <el-col :span="16">
+              <el-form-item label="研究起止日期" prop="pDate">
+                <el-date-picker
+                        v-model="formObj.pDate"
+                        type="daterange"
+                        value-format="yyyy-MM-dd"
+                        range-separator="至"
+                        start-placeholder="研究开始日期"
+                        end-placeholder="研究结束日期">
+                </el-date-picker>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
-              <el-form-item label="研究结束日期" required>
-                <el-date-picker v-model="formObj.pEndDate" placeholder="请选择研究结束日期" value-format="yyyy-MM-dd"></el-date-picker>
-              </el-form-item>
-            </el-col>
+            <!--<el-col :span="8">-->
+            <!--<el-form-item label="研究起始日期" required>-->
+            <!--<el-date-picker v-model="formObj.pStartDate" placeholder="请选择研究起始日期" value-format="yyyy-MM-dd"></el-date-picker>-->
+            <!--</el-form-item>-->
+            <!--</el-col>-->
+            <!--<el-col :span="8">-->
+            <!--<el-form-item label="研究结束日期" required>-->
+            <!--<el-date-picker v-model="formObj.pEndDate" placeholder="请选择研究结束日期" value-format="yyyy-MM-dd"></el-date-picker>-->
+            <!--</el-form-item>-->
+            <!--</el-col>-->
           </el-row>
           <el-row>
             <el-col :span="8">
-              <el-form-item label="经费（万元）" required>
+              <el-form-item label="经费（万元）" prop="pMoney">
                 <el-input v-model="formObj.pMoney" placeholder="请填写该项目的研究经费"></el-input>
               </el-form-item>
             </el-col>
@@ -78,7 +90,7 @@
           </el-row>
           <el-row>
             <el-col :span="8">
-              <el-form-item label="是否有合作单位" required label-width="125px">
+              <el-form-item label="是否有合作单位" prop="pOtherCompanyFlag" label-width="125px">
                 <el-radio-group v-model="formObj.pOtherCompanyFlag">
                   <el-radio :label="true" border>有</el-radio>
                   <el-radio :label="false" border>无</el-radio>
@@ -93,7 +105,7 @@
           </el-row>
           <el-row>
             <el-col :span="8">
-              <el-form-item label="是否验收" required>
+              <el-form-item label="是否验收" prop="pCheckFlag">
                 <el-radio-group v-model="formObj.pCheckFlag">
                   <el-radio :label="true" border>已验收</el-radio>
                   <el-radio :label="false" border>未验收</el-radio>
@@ -108,7 +120,7 @@
           </el-row>
           <el-row>
             <el-col :span="8">
-              <el-form-item label="是否获奖" required>
+              <el-form-item label="是否获奖" prop="pPrideFlag">
                 <el-radio-group v-model="formObj.pPrideFlag">
                   <el-radio :label="true" border>是</el-radio>
                   <el-radio :label="false" border>否</el-radio>
@@ -123,7 +135,7 @@
           </el-row>
           <el-row>
             <el-col :span="24">
-              <el-form-item label="项目简介" required>
+              <el-form-item label="项目简介" prop="pDes">
                 <el-input type="textarea" v-model="formObj.pDes" rows="6" placeholder="必填，填写项目简介" resize="none"></el-input>
               </el-form-item>
             </el-col>
@@ -147,7 +159,7 @@
       <div class="btn_area">
         <el-form :inline="true" size="mini">
           <el-form-item>
-            <el-button type="primary" @click="saveInfo">保存</el-button>
+            <el-button type="primary" @click="saveInfo('ruleForm')">保存</el-button>
             <el-button @click="goBack">返回</el-button>
           </el-form-item>
         </el-form>
@@ -156,53 +168,109 @@
   </div>
 </template>
 <script>
-export default {
-  name: 'add-info',
-  data () {
-    return {
-      yearList: [],
-      startYear: 1949,
-      levelList: ['司局级', '省部级', '国家级', '其他'],
-      orgList: ['市局办公室', '应急与减灾处', '科技与预报处', '观测与网络处', '计划财务处', '人事处', '政策法规处', '机关党办', '党组纪检组', '离退办', '气象台', '气候中心', '信息中心', '保障中心', '气象服务中心', '气象科学研究所', '气象安全技术中心', '人工影响天气办公室', '防雷中心', '预警发布中心', '机关服务中心', '财务结算中心', '气象学会', '华云公司', '莱霆公司', '万州区气象局', '黔江区气象局', '涪陵区气象局', '沙坪坝区气象局', '北碚区气象局', '渝北区气象局', '巴南区气象局', '长寿区气象局', '江津区气象局', '合川区气象局', '永川区气象局', '南川区气象局', '綦江区气象局', '大足区气象局', '璧山区气象局', '铜梁区气象局', '潼南区气象局', '荣昌区气象局', '开州区气象局', '梁平区气象局', '武隆区气象局', '城口县气象局', '丰都县气象局', '垫江县气象局', '忠县气象局', '云阳县气象局', '奉节县气象局', '巫山县气象局', '巫溪县气象局', '石柱县气象局', '秀山县气象局', '酉阳县气象局', '彭水县气象局', '万盛经开区气象局'],
-      formObj: {
-        pSeriesNum: '',
-        pName: '',
-        pCharge: '',
-        pType: '',
-        pLevel: '',
-        pOrg: '',
-        pYear: new Date().getFullYear() + '年度',
-        pStartDate: '',
-        pEndDate: '',
-        pOtherCompanyFlag: false,
-        pOtherCompanyName: '',
-        pMoney: '',
-        pMembers: '',
-        pCheckFlag: false,
-        pCheckTime: '',
-        pPrideFlag: false,
-        pPrideContent: '',
-        pDes: ''
+  export default {
+    name: 'add-info',
+    data () {
+      return {
+        yearList: [],
+        startYear: 1949,
+        levelList: ['司局级', '省部级', '国家级', '其他'],
+        orgList: ['市局办公室', '应急与减灾处', '科技与预报处', '观测与网络处', '计划财务处', '人事处', '政策法规处', '机关党办', '党组纪检组', '离退办', '气象台', '气候中心', '信息中心', '保障中心', '气象服务中心', '气象科学研究所', '气象安全技术中心', '人工影响天气办公室', '防雷中心', '预警发布中心', '机关服务中心', '财务结算中心', '气象学会', '华云公司', '莱霆公司', '万州区气象局', '黔江区气象局', '涪陵区气象局', '沙坪坝区气象局', '北碚区气象局', '渝北区气象局', '巴南区气象局', '长寿区气象局', '江津区气象局', '合川区气象局', '永川区气象局', '南川区气象局', '綦江区气象局', '大足区气象局', '璧山区气象局', '铜梁区气象局', '潼南区气象局', '荣昌区气象局', '开州区气象局', '梁平区气象局', '武隆区气象局', '城口县气象局', '丰都县气象局', '垫江县气象局', '忠县气象局', '云阳县气象局', '奉节县气象局', '巫山县气象局', '巫溪县气象局', '石柱县气象局', '秀山县气象局', '酉阳县气象局', '彭水县气象局', '万盛经开区气象局'],
+        formObj: {
+          pSeriesNum: '',
+          pName: '',
+          pCharge: '',
+          pType: '',
+          pLevel: '',
+          pOrg: '',
+          pYear: new Date().getFullYear() + '年度',
+          pStartDate: '',
+          pEndDate: '',
+          pDate: [],
+          pOtherCompanyFlag: false,
+          pOtherCompanyName: '',
+          pMoney: '',
+          pMembers: '',
+          pCheckFlag: false,
+          pCheckTime: '',
+          pPrideFlag: false,
+          pPrideContent: '',
+          pDes: ''
+        },
+        rules: {
+          pSeriesNum: [
+            { required: true, message: '请输入项目编号', trigger: 'blur' }
+          ],
+          pName: [
+            { required: true, message: '请输入项目名称', trigger: 'blur' }
+          ],
+          pCharge: [
+            { required: true, message: '请输入项目负责人', trigger: 'blur' }
+          ],
+          pLevel: [
+            { required: true, message: '请选择项目级别', trigger: 'change' }
+          ],
+          pType: [
+            { required: true, message: '请输入项目类别', trigger: 'blur' }
+          ],
+          pOrg: [
+            { required: true, message: '请选择承担单位', trigger: 'change' }
+          ],
+          pYear: [
+            { required: true, message: '请选择立项年份', trigger: 'change' }
+          ],
+          pDate: [
+            { type: 'array', required: true, message: '请选择研究起止日期', trigger: 'blur' }
+          ],
+          pMoney: [
+            { required: true, message: '请输入经费（万元）', trigger: 'blur' }
+          ],
+          pOtherCompanyFlag: [
+            { required: true, message: '请选择是否有合作单位', trigger: 'change' }
+          ],
+          pCheckFlag: [
+            { required: true, message: '请选择是否验收', trigger: 'change' }
+          ],
+          pPrideFlag: [
+            { required: true, message: '请选择是否获奖', trigger: 'change' }
+          ],
+          pDes: [
+            { required: true, message: '请输入项目简介', trigger: 'blur' }
+          ]
+        }
+      }
+    },
+    mounted () {
+      const currentYear = new Date().getFullYear()
+      for (let i = this.startYear; i <= currentYear; i++) {
+        this.yearList.push(i + '年度')
+      }
+    },
+    methods: {
+      saveInfo (formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            const {
+              pDate
+            } = this.formObj
+            const params = Object.assign({}, this.formObj, {
+              pStartDate: new Date(`${pDate[0]} 00:00:00`).getTime() / 1000,
+              pEndDate: new Date(`${pDate[1]} 23:59:59`).getTime() / 1000
+            })
+            this.$db.insertOne(params, function (err, doc) {
+              console.log(err, doc)
+            })
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+        })
+      },
+      goBack () {
+        this.$router.go(-1)
       }
     }
-  },
-  mounted () {
-    const currentYear = new Date().getFullYear()
-    for (let i = this.startYear; i <= currentYear; i++) {
-      this.yearList.push(i + '年度')
-    }
-  },
-  methods: {
-    saveInfo () {
-      this.$db.insertOne(this.formObj, function (err, doc) {
-        console.log(err, doc)
-      })
-    },
-    goBack () {
-      this.$router.go(-1)
-    }
   }
-}
 </script>
 <style lang='scss' scoped>
   .page{
