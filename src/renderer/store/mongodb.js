@@ -114,7 +114,7 @@ function mongodbModel (dbname) {
   }
   /* 分页查询 */
   /* queryStr-查询条件；pageNo-当前页数；-pageSize-每页条数 */
-  this.findByPages = function (queryStr, pageSize, pageNo, callback) {
+  this.findByPages = function (queryStr, pageSize = 10, pageNo = 1, callback) {
     MongoClient.connect(DB_CONN_STR, (err, db) => {
       if (err) {
         throw err
@@ -130,6 +130,7 @@ function mongodbModel (dbname) {
             throw error
           }
           res.pageNo = pageNo
+          res.pageSize = pageSize
           res.totalRows = list.length
           res.totalPages = Math.ceil(list.length / pageSize)
           callback(err, res)
