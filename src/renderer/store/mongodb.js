@@ -118,7 +118,7 @@ function mongodbModel (dbname) {
         throw err
       }
       var collection = db.collection()
-      collection.find(data).skip((pageNo - 1) * pageSize).limit(num).toArray(function (err, data) {
+      collection.find(data).skip((pageNo - 1) * pageSize).limit(pageSize).toArray(function (err, data) {
         callback(err, data)
       })
     })
