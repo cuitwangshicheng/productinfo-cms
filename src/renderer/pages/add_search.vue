@@ -295,9 +295,15 @@
               item.pPrideFlag = '未获奖'
             }
             if (item.pCheckFlag === true) {
-              item.pPrideFlag = '已验收'
+              item.pCheckFlag = '已验收'
             } else {
-              item.pPrideFlag = '未验收'
+              item.pCheckFlag = '未验收'
+            }
+            if (item.pStartDate) {
+              item.pStartDate = this.formatDate(new Date(item.pStartDate * 1000), 'yyyy-MM-dd')
+            }
+            if (item.pEndDate) {
+              item.pEndDate = this.formatDate(new Date(item.pEndDate * 1000), 'yyyy-MM-dd')
             }
           })
           datas.push({

@@ -65,16 +65,6 @@
                 </el-date-picker>
               </el-form-item>
             </el-col>
-            <!--<el-col :span="8">-->
-            <!--<el-form-item label="研究起始日期" required>-->
-            <!--<el-date-picker v-model="formObj.pStartDate" placeholder="请选择研究起始日期" value-format="yyyy-MM-dd"></el-date-picker>-->
-            <!--</el-form-item>-->
-            <!--</el-col>-->
-            <!--<el-col :span="8">-->
-            <!--<el-form-item label="研究结束日期" required>-->
-            <!--<el-date-picker v-model="formObj.pEndDate" placeholder="请选择研究结束日期" value-format="yyyy-MM-dd"></el-date-picker>-->
-            <!--</el-form-item>-->
-            <!--</el-col>-->
           </el-row>
           <el-row>
             <el-col :span="8">
