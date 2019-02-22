@@ -129,7 +129,8 @@ function mongodbModel (dbname) {
           if (error) {
             throw error
           }
-          res.totalRow = list.length
+          res.pageNo = pageNo
+          res.totalRows = list.length
           res.totalPages = Math.ceil(list.length / pageSize)
           callback(err, res)
         })
