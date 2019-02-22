@@ -97,6 +97,32 @@ function mongodbModel (dbname) {
       })
     })
   }
+  /* 这里是查询指定条数 */
+  /* data-查询条件；num-需要返回的条数 */
+  this.findLimitNum = function (data, num, callback) {
+    MongoClient.connect(DB_CONN_STR, function (err, db) {
+      if (err) {
+        throw err
+      }
+      var collection = db.collection()
+      collection.find(data).limit(num).toArray(function (err, data) {
+        callback(err, data)
+      })
+    })
+  }
+  /* 分页查询 */
+  /* data-查询条件；pageNo-当前页数；-pageSize-每页条数 */
+  this.findByPages = function (data, pageSize, pageNo, callback) {
+    MongoClient.connect(DB_CONN_STR, function (err, db) {
+      if (err) {
+        throw err
+      }
+      var collection = db.collection()
+      collection.find(data).skip((pageNo - 1) * pageSize).limit(num).toArray(function (err, data) {
+        callback(err, data)
+      })
+    })
+  }
 }
 
 module.exports = mongodbModel
