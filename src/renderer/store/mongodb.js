@@ -91,7 +91,8 @@ function mongodbModel (dbname) {
       if (err) {
         throw err
       }
-      var collection = db.collection()
+      const dbo = db.db(dbname)
+      const collection = dbo.collection(dbname)
       collection.find(data).toArray(function (err, data) {
         callback(err, data)
       })
@@ -104,7 +105,8 @@ function mongodbModel (dbname) {
       if (err) {
         throw err
       }
-      var collection = db.collection()
+      const dbo = db.db(dbname)
+      const collection = dbo.collection(dbname)
       collection.find(data).limit(num).toArray(function (err, data) {
         callback(err, data)
       })
@@ -117,7 +119,8 @@ function mongodbModel (dbname) {
       if (err) {
         throw err
       }
-      var collection = db.collection()
+      const dbo = db.db(dbname)
+      const collection = dbo.collection(dbname)
       collection.find(data).skip((pageNo - 1) * pageSize).limit(pageSize).toArray(function (err, data) {
         callback(err, data)
       })

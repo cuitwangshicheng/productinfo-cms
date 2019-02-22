@@ -1,8 +1,8 @@
 Arguments: 
-  D:\soft\nodejs\node.exe D:\soft\nodejs\node_modules\yarn\bin\yarn.js add mongodb -S
+  D:\soft\nodejs\node.exe D:\soft\nodejs\node_modules\yarn\bin\yarn.js add js-export-excel
 
 PATH: 
-  C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;D:\soft\java\jdk1.8.0_45_bit64\bin;D:\soft\java\jdk1.8.0_45_bit64\jre\bin;D:\soft\MySQL Server 5.1\bin;D:\apache-maven-3.1.1\bin;D:\soft\Python\Python36;D:\soft\Redis\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Simply Fortran 2\mingw-w64\bin;C:\Program Files (x86)\Simply Fortran 2\mingw-w64\x86_64-w64-mingw32\lib32;C:\Program Files (x86)\Simply Fortran 2\mingw-w64\x86_64-w64-mingw32\lib64;D:\soft\CMake\bin;C:\Program Files (x86)\Microsoft SQL Server\100\Tools\Binn\;C:\Program Files\Microsoft SQL Server\100\Tools\Binn\;C:\Program Files\Microsoft SQL Server\100\DTS\Binn\;d:\soft\Emscripten\emscripten\1.35.0;d:\soft\Emscripten;d:\soft\Emscripten\clang\e1.35.0_64bit;d:\soft\Emscripten\node\0.12.2_64bit;d:\soft\Emscripten\python\2.7.5.3_64bit;d:\soft\Emscripten\java\7.45_64bit\bin;d:\soft\Emscripten\crunch\1.03;d:\soft\Emscripten\mingw\4.6.2_32bit;D:\soft\mysql5.7\bin;C:\Program Files\PuTTY\;C:\ProgramData\chocolatey\bin;C:\Program Files\TortoiseSVN\bin;C:\Program Files (x86)\GtkSharp\2.12\bin;d:\soft\Microsoft VS Code\bin;D:\soft\nodejs\;d:\soft\Git\cmd;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\;%SYSTEMROOT%\System32\OpenSSH\;C:\Users\wangshicheng\AppData\Local\Microsoft\WindowsApps;C:\Users\wangshicheng\AppData\Local\Programs\Fiddler;d:\soft\Microsoft VS Code\bin;D:\soft\Microsoft VS Code\bin;C:\Users\wangshicheng\AppData\Roaming\npm;d:\Fiddler;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;
+  C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;D:\soft\java\jdk1.8.0_45_bit64\bin;D:\soft\java\jdk1.8.0_45_bit64\jre\bin;D:\soft\MySQL Server 5.1\bin;D:\apache-maven-3.1.1\bin;D:\soft\Python\Python36;D:\soft\Redis\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Simply Fortran 2\mingw-w64\bin;C:\Program Files (x86)\Simply Fortran 2\mingw-w64\x86_64-w64-mingw32\lib32;C:\Program Files (x86)\Simply Fortran 2\mingw-w64\x86_64-w64-mingw32\lib64;D:\soft\CMake\bin;C:\Program Files (x86)\Microsoft SQL Server\100\Tools\Binn\;C:\Program Files\Microsoft SQL Server\100\Tools\Binn\;C:\Program Files\Microsoft SQL Server\100\DTS\Binn\;d:\soft\Emscripten\emscripten\1.35.0;d:\soft\Emscripten;d:\soft\Emscripten\clang\e1.35.0_64bit;d:\soft\Emscripten\node\0.12.2_64bit;d:\soft\Emscripten\python\2.7.5.3_64bit;d:\soft\Emscripten\java\7.45_64bit\bin;d:\soft\Emscripten\crunch\1.03;d:\soft\Emscripten\mingw\4.6.2_32bit;D:\soft\mysql5.7\bin;C:\Program Files\PuTTY\;C:\ProgramData\chocolatey\bin;C:\Program Files\TortoiseSVN\bin;C:\Program Files (x86)\GtkSharp\2.12\bin;d:\soft\Microsoft VS Code\bin;D:\soft\nodejs\;d:\soft\Git\cmd;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\;%SYSTEMROOT%\System32\OpenSSH\;C:\Users\wangshicheng\AppData\Local\Microsoft\WindowsApps;C:\Users\wangshicheng\AppData\Local\Programs\Fiddler;d:\soft\Microsoft VS Code\bin;D:\soft\Microsoft VS Code\bin;C:\Users\wangshicheng\AppData\Roaming\npm;d:\Fiddler;C:\Users\wangshicheng\AppData\Local\Microsoft\WindowsApps;C:\Program Files\MongoDB\Server\4.0\bin;
 
 Yarn version: 
   1.9.4
@@ -74,6 +74,7 @@ npm manifest:
     "dependencies": {
       "axios": "^0.18.0",
       "element-ui": "^2.5.4",
+      "mongodb": "^3.1.13",
       "nedb": "^1.8.0",
       "vue": "^2.5.16",
       "vue-electron": "^1.0.6",
@@ -1942,6 +1943,11 @@ Lockfile:
     dependencies:
       caniuse-lite "^1.0.30000844"
       electron-to-chromium "^1.3.47"
+  
+  bson@^1.1.0:
+    version "1.1.0"
+    resolved "http://registry.npm.taobao.org/bson/download/bson-1.1.0.tgz#bee57d1fb6a87713471af4e32bcae36de814b5b0"
+    integrity sha1-vuV9H7aodxNHGvTjK8rjbegUtbA=
   
   buffer-alloc-unsafe@^1.1.0:
     version "1.1.0"
@@ -5846,6 +5852,11 @@ Lockfile:
       errno "^0.1.3"
       readable-stream "^2.0.1"
   
+  memory-pager@^1.0.2:
+    version "1.5.0"
+    resolved "http://registry.npm.taobao.org/memory-pager/download/memory-pager-1.5.0.tgz#d8751655d22d384682741c972f2c3d6dfa3e66b5"
+    integrity sha1-2HUWVdItOEaCdByXLyw9bfo+ZrU=
+  
   meow@^3.1.0, meow@^3.7.0:
     version "3.7.0"
     resolved "http://registry.npm.taobao.org/meow/download/meow-3.7.0.tgz#72cb668b425228290abbfa856892587308a801fb"
@@ -6037,6 +6048,25 @@ Lockfile:
     integrity sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
     dependencies:
       minimist "0.0.8"
+  
+  mongodb-core@3.1.11:
+    version "3.1.11"
+    resolved "http://registry.npm.taobao.org/mongodb-core/download/mongodb-core-3.1.11.tgz#b253038dbb4d7329f3d1c2ee5400bb0c9221fde5"
+    integrity sha1-slMDjbtNcynz0cLuVAC7DJIh/eU=
+    dependencies:
+      bson "^1.1.0"
+      require_optional "^1.0.1"
+      safe-buffer "^5.1.2"
+    optionalDependencies:
+      saslprep "^1.0.0"
+  
+  mongodb@^3.1.13:
+    version "3.1.13"
+    resolved "http://registry.npm.taobao.org/mongodb/download/mongodb-3.1.13.tgz#f8cdcbb36ad7a08b570bd1271c8525753f75f9f4"
+    integrity sha1-+M3Ls2rXoItXC9EnHIUldT91+fQ=
+    dependencies:
+      mongodb-core "3.1.11"
+      safe-buffer "^5.1.2"
   
   move-concurrently@^1.0.1:
     version "1.0.1"
@@ -7654,6 +7684,14 @@ Lockfile:
       caller-path "^0.1.0"
       resolve-from "^1.0.0"
   
+  require_optional@^1.0.1:
+    version "1.0.1"
+    resolved "http://registry.npm.taobao.org/require_optional/download/require_optional-1.0.1.tgz#4cf35a4247f64ca3df8c2ef208cc494b1ca8fc2e"
+    integrity sha1-TPNaQkf2TKPfjC7yCMxJSxyo/C4=
+    dependencies:
+      resolve-from "^2.0.0"
+      semver "^5.1.0"
+  
   requires-port@^1.0.0:
     version "1.0.0"
     resolved "http://registry.npm.taobao.org/requires-port/download/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
@@ -7683,6 +7721,11 @@ Lockfile:
     version "1.0.1"
     resolved "http://registry.npm.taobao.org/resolve-from/download/resolve-from-1.0.1.tgz#26cbfe935d1aeeeabb29bc3fe5aeb01e93d44226"
     integrity sha1-Jsv+k10a7uq7Kbw/5a6wHpPUQiY=
+  
+  resolve-from@^2.0.0:
+    version "2.0.0"
+    resolved "http://registry.npm.taobao.org/resolve-from/download/resolve-from-2.0.0.tgz#9480ab20e94ffa1d9e80a804c7ea147611966b57"
+    integrity sha1-lICrIOlP+h2egKgEx+oUdhGWa1c=
   
   resolve-from@^3.0.0:
     version "3.0.0"
@@ -7793,6 +7836,13 @@ Lockfile:
     integrity sha1-YS2hyWRz+gLczaktzVtKsWSmdyo=
     dependencies:
       truncate-utf8-bytes "^1.0.0"
+  
+  saslprep@^1.0.0:
+    version "1.0.2"
+    resolved "http://registry.npm.taobao.org/saslprep/download/saslprep-1.0.2.tgz#da5ab936e6ea0bbae911ffec77534be370c9f52d"
+    integrity sha1-2lq5NubqC7rpEf/sd1NL43DJ9S0=
+    dependencies:
+      sparse-bitfield "^3.0.3"
   
   sass-graph@^2.2.4:
     version "2.2.4"
@@ -8134,6 +8184,13 @@ Lockfile:
     version "0.6.1"
     resolved "http://registry.npm.taobao.org/source-map/download/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
     integrity sha1-dHIq8y6WFOnCh6jQu95IteLxomM=
+  
+  sparse-bitfield@^3.0.3:
+    version "3.0.3"
+    resolved "http://registry.npm.taobao.org/sparse-bitfield/download/sparse-bitfield-3.0.3.tgz#ff4ae6e68656056ba4b3e792ab3334d38273ca11"
+    integrity sha1-/0rm5oZWBWuks+eSqzM004JzyhE=
+    dependencies:
+      memory-pager "^1.0.2"
   
   spdx-correct@^3.0.0:
     version "3.1.0"

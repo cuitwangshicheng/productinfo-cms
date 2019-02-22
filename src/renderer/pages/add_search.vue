@@ -57,6 +57,7 @@
         </div>
         <div class="btn-area">
             <el-button @click="goBack">返回</el-button>
+            <el-button @click="exportExcel" type="primary">导出excel</el-button>
         </div>
     </div>
 </template>
@@ -108,6 +109,67 @@
       // 返回
       goBack () {
         this.$router.go(-1)
+      },
+      // 导出excel
+      exportExcel () {
+        this.$db.find({}, (err, r) => {
+          if (err) {
+            alert('查询数据异常，请稍后再试')
+            return false
+          }
+          let option = {}
+          option.fileName = '项目信息汇总' + new Date().getFullYear() + '-' + new Date().getMonth() + '-' + new Date().getDate()
+          let datas = []
+          let rowDatas = []
+          r.map(item => {
+            delete item._id
+            let colDatas = []
+            for (let i in item) {
+              console.log(i)
+              console.log('--------')
+              if (i === 'pCheckFlag') {
+                if (item[i] === false) {
+                  colDatas.push('未验收')
+                } else if (item[i] === true) {
+                  colDatas.push('已验收')
+                } else {
+                  colDatas.push('')
+                }
+              } else if (i === 'pPrideFlag') {
+                if (item[i] === false) {
+                  colDatas.push('未获奖')
+                } else if (item[i] === true) {
+                  colDatas.push('获奖')
+                } else {
+                  colDatas.push('')
+                }
+              } else if (i === 'pOtherCompanyFlag') {
+                if (item[i] === false) {
+                  colDatas.push('有')
+                } else if (item[i] === true) {
+                  colDatas.push('无')
+                } else {
+                  colDatas.push('')
+                }
+              } else {
+                colDatas.push(item[i])
+              }
+            }
+            rowDatas.push(colDatas)
+          })
+          datas.push({
+            sheetData: rowDatas,
+            sheetHeader: ['项目编号', '项目名称', '项目负责人', '项目级别', '项目类别', '承担单位', '立项年份', '研究起始日期', '研究结束日期', '经费（万元）', '参加人员', '是否有合作单位', '合作单位名称', '是否验收', '验收时间', '是否获奖', '获奖情况', '项目简介']
+          })
+          option.datas = datas
+          console.log(option)
+          const ExportJsonExcel = require('js-export-excel')
+          new ExportJsonExcel(option).saveExcel()
+        })
+      },
+      // 格式化excel数据
+      formatJson (filterVal, jsonData) {
+        return jsonData.map(v => filterVal.map(j => v[j]))
       }
     }
   }
