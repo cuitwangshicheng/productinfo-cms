@@ -121,7 +121,7 @@ function mongodbModel (dbname) {
       }
       const dbo = db.db(dbname)
       const collection = dbo.collection(dbname)
-      collection.find(queryStr).skip((pageNo - 1) * pageSize).limit(pageSize).explain().toArray((err, data) => {
+      collection.find(queryStr).skip((pageNo - 1) * pageSize).limit(pageSize).toArray((err, data) => {
         let res = {
           data: data
         }
