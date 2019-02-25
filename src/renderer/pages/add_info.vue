@@ -53,15 +53,23 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="16">
-              <el-form-item label="研究起止日期" prop="pDate">
+            <el-col :span="8">
+              <el-form-item label="研究开始日期" prop="pStartDate">
                 <el-date-picker
-                        v-model="formObj.pDate"
-                        type="daterange"
-                        value-format="yyyy-MM-dd"
-                        range-separator="至"
-                        start-placeholder="研究开始日期"
-                        end-placeholder="研究结束日期">
+                        v-model="formObj.pStartDate"
+                        type="date"
+                        placeholder="选择开始日期"
+                        value-format="yyyy-MM-dd">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="研究结束日期" prop="pEndDate">
+                <el-date-picker
+                        v-model="formObj.pEndDate"
+                        type="date"
+                        placeholder="选择结束日期"
+                        value-format="yyyy-MM-dd">
                 </el-date-picker>
               </el-form-item>
             </el-col>
@@ -161,6 +169,28 @@
   export default {
     name: 'add-info',
     data () {
+      var validatePStartDate = (rule, value, callback) => {
+        const pEndDate = this.formObj.pEndDate
+        if (pEndDate !== '' && pEndDate !== null) {
+          if (new Date(`${pEndDate} 23:59:59`).getTime() <= new Date(`${value} 00:00:00`).getTime()) {
+            callback(new Error('开始日期必须小于等于结束日期'))
+          } else {
+            this.$refs.ruleForm.clearValidate('pEndDate')
+          }
+        }
+        callback()
+      }
+      var validatePEndDate = (rule, value, callback) => {
+        const pStartDate = this.formObj.pStartDate
+        if (pStartDate !== '' && pStartDate !== null) {
+          if (new Date(`${pStartDate} 00:00:00`).getTime() >= new Date(`${value} 23:59:59`).getTime()) {
+            callback(new Error('开始日期必须小于等于结束日期'))
+          } else {
+            this.$refs.ruleForm.clearValidate('pStartDate')
+          }
+        }
+        callback()
+      }
       return {
         yearList: [],
         startYear: 1949,
@@ -176,7 +206,6 @@
           pYear: new Date().getFullYear() + '年度',
           pStartDate: '',
           pEndDate: '',
-          pDate: [],
           pOtherCompanyFlag: false,
           pOtherCompanyName: '',
           pMoney: '',
@@ -209,8 +238,13 @@
           pYear: [
             { required: true, message: '请选择立项年份', trigger: 'change' }
           ],
-          pDate: [
-            { type: 'array', required: true, message: '请选择研究起止日期', trigger: 'blur' }
+          pStartDate: [
+            { required: true, message: '请选择研究开始日期', trigger: 'blur' },
+            { validator: validatePStartDate, trigger: 'blur' }
+          ],
+          pEndDate: [
+            { required: true, message: '请选择研究结束日期', trigger: 'blur' },
+            { validator: validatePEndDate, trigger: 'blur' }
           ],
           pMoney: [
             { required: true, message: '请输入经费（万元）', trigger: 'blur' }
@@ -243,11 +277,12 @@
           if (valid) {
             this.saveDisabled = true
             const {
-              pDate
+              pStartDate,
+              pEndDate
             } = this.formObj
             const params = Object.assign({}, this.formObj, {
-              pStartDate: new Date(`${pDate[0]} 00:00:00`).getTime() / 1000,
-              pEndDate: new Date(`${pDate[1]} 23:59:59`).getTime() / 1000
+              pStartDate: new Date(`${pStartDate} 00:00:00`).getTime() / 1000,
+              pEndDate: new Date(`${pEndDate} 23:59:59`).getTime() / 1000
             })
             this.$db.insertOne(params, (err, doc) => {
               this.saveDisabled = false

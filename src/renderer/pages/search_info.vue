@@ -167,14 +167,14 @@
                             :formatter="formatter"
                             min-width="150">
                     </el-table-column>
-                    <el-table-column label="操作">
+                    <el-table-column label="操作" min-width="150">
                         <template slot-scope="scope">
-                            <!--<el-button-->
-                                    <!--size="mini"-->
-                                    <!--@click="handleEdit(scope.$index, scope.row)">编辑</el-button>-->
                             <el-button
                                     size="mini"
-                                    type="text"
+                                    @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                            <el-button
+                                    size="mini"
+                                    type="danger"
                                     @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                         </template>
                     </el-table-column>
@@ -425,6 +425,10 @@
             })
           }
         })
+      },
+      // 编辑
+      handleEdit (index, row) {
+        this.$router.push('/edit')
       },
       // 分页
       handleSizeChange (val) {

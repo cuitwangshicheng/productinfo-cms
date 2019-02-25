@@ -18,7 +18,12 @@ export default new Router({
     {
       path: '/search',
       name: 'search-page',
-      component: require('@/pages/add_search').default
+      component: require('@/pages/search_info').default
+    },
+    {
+      path: '/edit',
+      name: 'edit-page',
+      component: require('@/pages/edit_info').default
     },
     {
       path: '*',
