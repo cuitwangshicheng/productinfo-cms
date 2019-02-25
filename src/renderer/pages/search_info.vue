@@ -1,6 +1,6 @@
 <template>
     <div class="page">
-        <el-breadcrumb separator-class="el-icon-arrow-right">
+        <el-breadcrumb separator="/">
             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item>科研项目信息检索</el-breadcrumb-item>
         </el-breadcrumb>
@@ -99,7 +99,7 @@
                     <el-table-column
                             label="序号"
                             type="index"
-                            width="50">
+                            width="80">
                     </el-table-column>
                     <el-table-column
                             prop="pYear"
@@ -229,6 +229,7 @@
       for (let i = this.startYear; i <= currentYear; i++) {
         this.yearList.push(i + '年度')
       }
+      this.searchInfo()
     },
     methods: {
       // 查询
@@ -428,7 +429,7 @@
       },
       // 编辑
       handleEdit (index, row) {
-        this.$router.push('/edit')
+        this.$router.push(`/edit/${row.id}`)
       },
       // 分页
       handleSizeChange (val) {

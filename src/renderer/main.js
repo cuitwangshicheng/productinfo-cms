@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import './assets/scss/base.scss'
 const MongodbModel = require('./store/mongodb')
 
 const db = new MongodbModel('cmsDB')

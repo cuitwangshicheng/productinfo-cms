@@ -1,9 +1,9 @@
 <template>
     <div class="page">
-        <el-breadcrumb separator-class="el-icon-arrow-right">
+        <el-breadcrumb separator="/">
             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item :to="{ path: '/search' }">科研项目信息检索</el-breadcrumb-item>
-            <el-breadcrumb-item>科研项目信息编辑</el-breadcrumb-item>
+            <el-breadcrumb-item>编辑</el-breadcrumb-item>
         </el-breadcrumb>
         <div class="content">
             <div class="form">
@@ -193,6 +193,7 @@
         callback()
       }
       return {
+        pId: this.$route.params.id,
         yearList: [],
         startYear: 1949,
         levelList: ['司局级', '省部级', '国家级', '其他'],
@@ -217,6 +218,7 @@
           pPrideContent: '',
           pDes: ''
         },
+        oldFormObj: {},
         rules: {
           pSeriesNum: [
             { required: true, message: '请输入项目编号', trigger: 'blur' }
@@ -271,8 +273,84 @@
       for (let i = currentYear; i >= this.startYear; i--) {
         this.yearList.push(i + '年度')
       }
+      this.searchById()
     },
     methods: {
+      // 根据id查询
+      searchById () {
+        this.$db.find({id: Number(this.pId)}, (err, doc) => {
+          if (err) {
+            this.$message({
+              type: 'error',
+              message: '未找到数据'
+            })
+          } else {
+            console.log(doc)
+            this.oldFormObj = doc[0]
+            const {
+              pSeriesNum,
+              pName,
+              pCharge,
+              pType,
+              pLevel,
+              pOrg,
+              pYear,
+              pStartDate,
+              pEndDate,
+              pOtherCompanyFlag,
+              pOtherCompanyName,
+              pMoney,
+              pMembers,
+              pCheckFlag,
+              pCheckTime,
+              pPrideFlag,
+              pPrideContent,
+              pDes
+            } = doc[0]
+            Object.assign(this.formObj, {
+              pSeriesNum,
+              pName,
+              pCharge,
+              pType,
+              pLevel,
+              pOrg,
+              pYear,
+              pStartDate: this.formatDate(new Date(pStartDate * 1000), 'yyyy-MM-dd'),
+              pEndDate: this.formatDate(new Date(pEndDate * 1000), 'yyyy-MM-dd'),
+              pOtherCompanyFlag,
+              pOtherCompanyName,
+              pMoney,
+              pMembers,
+              pCheckFlag,
+              pCheckTime,
+              pPrideFlag,
+              pPrideContent,
+              pDes
+            })
+          }
+        })
+      },
+      formatDate (date, fmt) {
+        var o = {
+          'M+': date.getMonth() + 1, // 月份
+          'd+': date.getDate(), // 日
+          'h+': date.getHours(), // 小时
+          'm+': date.getMinutes(), // 分
+          's+': date.getSeconds(), // 秒
+          'q+': Math.floor((date.getMonth() + 3) / 3), // 季度
+          'S': date.getMilliseconds() // 毫秒
+        }
+        if (/(y+)/.test(fmt)) {
+          fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
+        }
+        for (var k in o) {
+          if (new RegExp('(' + k + ')').test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)))
+          }
+        }
+        return fmt
+      },
+      // 保存
       saveInfo (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -285,17 +363,20 @@
               pStartDate: new Date(`${pStartDate} 00:00:00`).getTime() / 1000,
               pEndDate: new Date(`${pEndDate} 23:59:59`).getTime() / 1000
             })
-            this.$db.insertOne(params, (err, doc) => {
-              this.saveDisabled = false
+            this.$db.updateOne(this.oldFormObj, params, (err, doc) => {
               if (err) {
+                this.saveDisabled = false
                 this.$message({
                   type: 'error',
-                  message: '信息录入失败，请稍后重试'
+                  message: '信息修改失败，请稍后重试'
                 })
               } else {
                 this.$message({
                   type: 'success',
-                  message: '信息录入成功'
+                  message: '信息修改成功',
+                  onClose: () => {
+                    this.$router.go(-1)
+                  }
                 })
               }
               console.log(err, doc)

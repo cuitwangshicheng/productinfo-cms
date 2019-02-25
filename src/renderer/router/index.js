@@ -21,7 +21,7 @@ export default new Router({
       component: require('@/pages/search_info').default
     },
     {
-      path: '/edit',
+      path: '/edit/:id',
       name: 'edit-page',
       component: require('@/pages/edit_info').default
     },
