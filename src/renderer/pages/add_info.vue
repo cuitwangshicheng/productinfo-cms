@@ -157,8 +157,7 @@
       <div class="btn_area">
         <el-form :inline="true" size="mini">
           <el-form-item>
-            <el-button type="primary" :disabled="saveDisabled" @click="saveInfo('ruleForm')">保存</el-button>
-            <el-button @click="goBack">返回</el-button>
+            <el-button type="primary" :disabled="saveDisabled" @click="saveInfo('ruleForm')">保存</el-button> <i>*号是必填项</i>
           </el-form-item>
         </el-form>
       </div>
@@ -304,9 +303,6 @@
             return false
           }
         })
-      },
-      goBack () {
-        this.$router.go(-1)
       }
     }
   }
