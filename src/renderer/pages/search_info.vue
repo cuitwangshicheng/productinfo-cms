@@ -1,7 +1,6 @@
 <template>
     <div class="page">
         <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item>科研项目信息检索</el-breadcrumb-item>
         </el-breadcrumb>
         <div class="content">
@@ -27,6 +26,7 @@
                     <el-form-item>
                         <el-select v-model="formObj.pLevel"
                                    filterable
+                                   clearable
                                    default-first-option
                                    placeholder="请选择项目级别">
                             <el-option v-for="item in levelList"
@@ -39,6 +39,7 @@
                     <el-form-item>
                         <el-select v-model="formObj.pOrg"
                                    filterable
+                                   clearable
                                    default-first-option
                                    placeholder="请选择承担单位">
                             <el-option v-for="item in orgList"
@@ -83,28 +84,30 @@
                     </el-form-item>
                 </el-form>
                 <div class="suffix">
-                    <el-form size="mini" :inline="true">
-                        <el-form-item>
-                            <el-button @click="exportExcel" type="primary">导出excel</el-button>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-upload
-                                    ref="upload"
-                                    action="/wm/upload/"
-                                    :show-file-list="false"
-                                    :on-change="importExcel"
-                                    :auto-upload="false">
-                                <el-button
-                                        :disabled="importExcelDisabled"
-                                        slot="trigger"
-                                        size="mini">
-                                    导入excel
-                                </el-button>
-                            </el-upload>
-                        </el-form-item>
-                    </el-form>
+
                 </div>
             </div>
+            <el-form class="operate-bar" size="mini" :inline="true">
+                <el-form-item>
+                    <el-button @click="exportExcel" type="primary">导出excel</el-button>
+                </el-form-item>
+                <el-form-item>
+                    <el-upload
+                            ref="upload"
+                            action="/wm/upload/"
+                            :show-file-list="false"
+                            :on-change="importExcel"
+                            :auto-upload="false">
+                        <el-button
+                                type="primary"
+                                :disabled="importExcelDisabled"
+                                slot="trigger"
+                                size="mini">
+                            导入excel
+                        </el-button>
+                    </el-upload>
+                </el-form-item>
+            </el-form>
             <div class="main">
                 <el-table
                         :data="tableData"
@@ -182,7 +185,7 @@
                             :formatter="formatter"
                             min-width="150">
                     </el-table-column>
-                    <el-table-column label="操作" min-width="150">
+                    <el-table-column label="操作" width="150" fixed="right">
                         <template slot-scope="scope">
                             <el-button
                                     size="mini"
@@ -400,7 +403,7 @@
             console.log(sheetArray.flat(Infinity), this.formatJson(sheetArray.flat(Infinity)))
             this.addMultiInfo(this.formatJson(sheetArray.flat(Infinity)))
           } catch (e) {
-            this.$message.warning('文件类型不正确！')
+            this.$message.warning('文件类型不正确, 只支持上传excel文件')
             return false
           }
         }
@@ -574,18 +577,16 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: flex-start;
-                .suffix {
-                    width: 400px;
-                    font-size: 0;
-                    text-align: right;
-                    margin-right: -10px;
-                }
+            }
+            .operate-bar {
+                font-size: 0;
+                padding-top: 18px;
+                border: 1px solid #ebebeb;
+                border-bottom: none;
+                padding-left: 10px;
             }
             .main {
                 border: 1px solid #ebebeb;
-                .el-table {
-                    min-height: 500px;
-                }
                 .el-pagination {
                     float: right;
                     padding: 20px;

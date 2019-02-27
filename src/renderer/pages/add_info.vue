@@ -1,7 +1,6 @@
 <template>
   <div class="page">
     <el-breadcrumb separator="/">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>科研项目信息录入</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="content">
@@ -10,17 +9,17 @@
           <el-row>
             <el-col :span="8">
               <el-form-item label="项目编号" prop="pSeriesNum">
-                <el-input v-model="formObj.pSeriesNum" placeholder="必填项', '如无项目编号则填写：无"></el-input>
+                <el-input v-model="formObj.pSeriesNum" placeholder="必填项，如无项目编号则填写：无"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="项目名称" prop="pName">
-                <el-input v-model="formObj.pName" placeholder="必填项', '请填写项目名称"></el-input>
+                <el-input v-model="formObj.pName" placeholder="必填项，请填写项目名称"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="项目负责人" prop="pCharge">
-                <el-input v-model="formObj.pCharge" placeholder="必填项', '请填写项目负责人"></el-input>
+                <el-input v-model="formObj.pCharge" placeholder="必填项，请填写项目负责人"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -34,7 +33,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="项目类别" prop="pType">
-                <el-input v-model="formObj.pType" placeholder="必填项', '请填写项目类别"></el-input>
+                <el-input v-model="formObj.pType" placeholder="必填项，请填写项目类别"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -77,12 +76,12 @@
           <el-row>
             <el-col :span="8">
               <el-form-item label="经费（万元）" prop="pMoney">
-                <el-input v-model="formObj.pMoney" placeholder="请填写该项目的研究经费"></el-input>
+                <el-input v-model="formObj.pMoney" placeholder="必填项，请填写该项目的研究经费"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="16">
               <el-form-item label="参加人员">
-                <el-input v-model="formObj.pMembers" placeholder="请填写参加该项目的人员名称，以逗号分隔"></el-input>
+                <el-input v-model="formObj.pMembers" placeholder="选填，请填写参加该项目的人员名称，以逗号分隔"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -318,6 +317,12 @@
         text-align: left;
         .el-radio{
            margin-right: 0;
+        }
+        .el-form-item__content {
+          .el-select,
+          .el-date-editor {
+            width: 100%;
+          }
         }
       }
       .btn_area{
