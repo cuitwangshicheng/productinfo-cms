@@ -277,11 +277,13 @@
             this.saveDisabled = true
             const {
               pStartDate,
-              pEndDate
+              pEndDate,
+              pCheckTime
             } = this.formObj
             const params = Object.assign({}, this.formObj, {
               pStartDate: new Date(`${pStartDate} 00:00:00`).getTime() / 1000,
-              pEndDate: new Date(`${pEndDate} 23:59:59`).getTime() / 1000
+              pEndDate: new Date(`${pEndDate} 23:59:59`).getTime() / 1000,
+              pCheckTime: pCheckTime === null ? '' : pCheckTime
             })
             this.$db.insertOne(params, (err, doc) => {
               this.saveDisabled = false

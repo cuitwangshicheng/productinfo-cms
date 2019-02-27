@@ -87,6 +87,21 @@
                         <el-form-item>
                             <el-button @click="exportExcel" type="primary">导出excel</el-button>
                         </el-form-item>
+                        <el-form-item>
+                            <el-upload
+                                    ref="upload"
+                                    action="/wm/upload/"
+                                    :show-file-list="false"
+                                    :on-change="importExcel"
+                                    :auto-upload="false">
+                                <el-button
+                                        :disabled="importExcelDisabled"
+                                        slot="trigger"
+                                        size="mini">
+                                    导入excel
+                                </el-button>
+                            </el-upload>
+                        </el-form-item>
                     </el-form>
                 </div>
             </div>
@@ -194,6 +209,7 @@
 </template>
 
 <script>
+  import XLSX from 'js-xlsx'
   export default {
     data () {
       return {
@@ -221,12 +237,16 @@
         page: 1,
         pageSizes: [20, 40, 60, 80, 100],
         pageSize: 20,
-        total: 0
+        total: 0,
+        // excel
+        importExcelDisabled: false,
+        sheetFilterArr: ['pSeriesNum', 'pName', 'pCharge', 'pLevel', 'pType', 'pOrg', 'pYear', 'pStartDate', 'pEndDate', 'pMoney', 'pMembers', 'pOtherCompanyFlag', 'pOtherCompanyName', 'pCheckFlag', 'pCheckTime', 'pPrideFlag', 'pPrideContent', 'pDes'],
+        sheetHeaderArr: ['项目编号', '项目名称', '项目负责人', '项目级别', '项目类别', '承担单位', '立项年份', '研究起始日期', '研究结束日期', '经费（万元）', '参加人员', '是否有合作单位', '合作单位名称', '是否验收', '验收时间', '是否获奖', '获奖情况', '项目简介']
       }
     },
     mounted () {
       const currentYear = new Date().getFullYear()
-      for (let i = this.startYear; i <= currentYear; i++) {
+      for (let i = currentYear; i >= this.startYear; i--) {
         this.yearList.push(i + '年度')
       }
       this.searchInfo()
@@ -310,52 +330,150 @@
       },
       // 导出excel
       exportExcel () {
-        this.$db.find({}, (err, r) => {
-          if (err) {
-            alert('查询数据异常，请稍后再试')
-            return false
-          }
-          let option = {}
-          option.fileName = '项目信息汇总' + new Date().getFullYear() + '-' + new Date().getMonth() + '-' + new Date().getDate()
-          let datas = []
-          r.map(item => {
-            if (item.pOtherCompanyFlag === true) {
-              item.pOtherCompanyFlag = '有'
-            } else {
-              item.pOtherCompanyFlag = '无'
+        this.$confirm('将导出最近一次查询出的数据, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$db.find(this.lastParams, (err, r) => {
+            if (err) {
+              alert('查询数据异常，请稍后再试')
+              return false
             }
-            if (item.pPrideFlag === true) {
-              item.pPrideFlag = '获奖'
-            } else {
-              item.pPrideFlag = '未获奖'
-            }
-            if (item.pCheckFlag === true) {
-              item.pCheckFlag = '已验收'
-            } else {
-              item.pCheckFlag = '未验收'
-            }
-            if (item.pStartDate) {
-              item.pStartDate = this.formatDate(new Date(item.pStartDate * 1000), 'yyyy-MM-dd')
-            }
-            if (item.pEndDate) {
-              item.pEndDate = this.formatDate(new Date(item.pEndDate * 1000), 'yyyy-MM-dd')
-            }
+            let option = {}
+            option.fileName = '项目信息汇总' + new Date().getFullYear() + '-' + new Date().getMonth() + '-' + new Date().getDate()
+            let datas = []
+            r.map(item => {
+              if (item.pOtherCompanyFlag === true) {
+                item.pOtherCompanyFlag = '有'
+              } else {
+                item.pOtherCompanyFlag = '无'
+              }
+              if (item.pPrideFlag === true) {
+                item.pPrideFlag = '获奖'
+              } else {
+                item.pPrideFlag = '未获奖'
+              }
+              if (item.pCheckFlag === true) {
+                item.pCheckFlag = '已验收'
+              } else {
+                item.pCheckFlag = '未验收'
+              }
+              if (item.pStartDate) {
+                item.pStartDate = this.formatDate(new Date(item.pStartDate * 1000), 'yyyy-MM-dd')
+              }
+              if (item.pEndDate) {
+                item.pEndDate = this.formatDate(new Date(item.pEndDate * 1000), 'yyyy-MM-dd')
+              }
+            })
+            datas.push({
+              sheetData: r,
+              sheetFilter: this.sheetFilterArr,
+              sheetHeader: this.sheetHeaderArr,
+              columnWidths: [4, 6, 4, 3, 4, 10, 4, 6, 6, 4, 10, 8, 10, 5, 6, 5, 10, 20]
+            })
+            option.datas = datas
+            console.log(option)
+            const ExportJsonExcel = require('js-export-excel')
+            new ExportJsonExcel(option).saveExcel()
           })
-          datas.push({
-            sheetData: r,
-            sheetFilter: ['pSeriesNum', 'pName', 'pCharge', 'pLevel', 'pType', 'pOrg', 'pYear', 'pStartDate', 'pEndDate', 'pMoney', 'pMembers', 'pOtherCompanyFlag', 'pOtherCompanyName', 'pCheckFlag', 'pCheckTime', 'pPrideFlag', 'pPrideContent', 'pDes'],
-            sheetHeader: ['项目编号', '项目名称', '项目负责人', '项目级别', '项目类别', '承担单位', '立项年份', '研究起始日期', '研究结束日期', '经费（万元）', '参加人员', '是否有合作单位', '合作单位名称', '是否验收', '验收时间', '是否获奖', '获奖情况', '项目简介'],
-            columnWidths: [4, 6, 4, 3, 4, 10, 4, 6, 6, 4, 10, 8, 10, 5, 6, 5, 10, 20]
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消导出'
           })
-          option.datas = datas
-          console.log(option)
-          const ExportJsonExcel = require('js-export-excel')
-          new ExportJsonExcel(option).saveExcel()
         })
       },
+      // 导入excel
+      importExcel (file) {
+        const fileReader = new FileReader()
+        fileReader.onload = (ev) => {
+          try {
+            const data = ev.target.result
+            const workbook = XLSX.read(data, {
+              type: 'binary'
+            })
+            let sheetArray = []
+            for (let sheet in workbook.Sheets) {
+              sheetArray.push(XLSX.utils.sheet_to_json(workbook.Sheets[sheet]))
+            }
+            console.log(sheetArray.flat(Infinity), this.formatJson(sheetArray.flat(Infinity)))
+            this.addMultiInfo(this.formatJson(sheetArray.flat(Infinity)))
+          } catch (e) {
+            this.$message.warning('文件类型不正确！')
+            return false
+          }
+        }
+        fileReader.readAsBinaryString(file.raw) // 读文件
+      },
       // 格式化excel数据
-      formatJson (filterVal, jsonData) {
-        return jsonData.map(v => filterVal.map(j => v[j]))
+      formatJson (jsonData) {
+        return jsonData.map(v => {
+          let obj = {}
+          for (let k in v) {
+            let headerIndex = this.sheetHeaderArr.indexOf(k)
+            if (headerIndex >= 0) {
+              let key = this.sheetFilterArr[headerIndex]
+              obj[key] = this.formatItemValue(key, v[k])
+            }
+          }
+          return obj
+        })
+      },
+      formatItemValue (key, value) {
+        let newValue
+        switch (key) {
+          case 'pOtherCompanyFlag':
+            if (value === '有') {
+              newValue = true
+            } else if (value === '无') {
+              newValue = false
+            }
+            break
+          case 'pPrideFlag':
+            if (value === '获奖') {
+              newValue = true
+            } else if (value === '未获奖') {
+              newValue = false
+            }
+            break
+          case 'pCheckFlag':
+            if (value === '已验收') {
+              newValue = true
+            } else if (value === '未验收') {
+              newValue = false
+            }
+            break
+          case 'pStartDate':
+            newValue = new Date(`${value} 00:00:00`).getTime() / 1000
+            break
+          case 'pEndDate':
+            newValue = new Date(`${value} 23:59:59`).getTime() / 1000
+            break
+          default:
+            newValue = value
+            break
+        }
+        return newValue
+      },
+      addMultiInfo (arr) {
+        this.importExcelDisabled = true
+        this.$db.insertMany(arr, (err, doc) => {
+          this.importExcelDisabled = false
+          if (err) {
+            this.$message({
+              type: 'error',
+              message: '导入excel失败，请稍后重试'
+            })
+          } else {
+            console.log(doc)
+            this.$message({
+              type: 'success',
+              message: '导入excel成功'
+            })
+            this.handleCurrentChange(1)
+          }
+        })
       },
       // 表格
       formatter (row, column, cellValue, index) {
@@ -429,7 +547,7 @@
       },
       // 编辑
       handleEdit (index, row) {
-        this.$router.push(`/edit/${row.id}`)
+        this.$router.push(`/edit/${row._id.toString()}`)
       },
       // 分页
       handleSizeChange (val) {
@@ -456,6 +574,12 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: flex-start;
+                .suffix {
+                    width: 400px;
+                    font-size: 0;
+                    text-align: right;
+                    margin-right: -10px;
+                }
             }
             .main {
                 border: 1px solid #ebebeb;

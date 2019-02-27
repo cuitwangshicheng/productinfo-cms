@@ -13,7 +13,6 @@ function mongodbModel (dbname) {
       }
       const dbo = db.db(dbname)
       const collection = dbo.collection(dbname)
-      data.id = new Date().getTime()
       collection.insertOne(data, (err, result) => {
         callback(err, result)
       })

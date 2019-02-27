@@ -166,6 +166,7 @@
     </div>
 </template>
 <script>
+  import MongoDB from 'mongodb'
   export default {
     name: 'add-info',
     data () {
@@ -277,7 +278,7 @@
     methods: {
       // 根据id查询
       searchById () {
-        this.$db.find({id: Number(this.pId)}, (err, doc) => {
+        this.$db.find({_id: MongoDB.ObjectId(this.pId)}, (err, doc) => {
           if (err) {
             this.$message({
               type: 'error',
@@ -356,11 +357,13 @@
             this.saveDisabled = true
             const {
               pStartDate,
-              pEndDate
+              pEndDate,
+              pCheckTime
             } = this.formObj
             const params = Object.assign({}, this.formObj, {
               pStartDate: new Date(`${pStartDate} 00:00:00`).getTime() / 1000,
-              pEndDate: new Date(`${pEndDate} 23:59:59`).getTime() / 1000
+              pEndDate: new Date(`${pEndDate} 23:59:59`).getTime() / 1000,
+              pCheckTime: pCheckTime === null ? '' : pCheckTime
             })
             this.$db.updateOne(this.oldFormObj, params, (err, doc) => {
               if (err) {
