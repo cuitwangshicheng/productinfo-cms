@@ -1,9 +1,13 @@
 function mongodbModel (dbname) {
   let MongoClient
   let DB_CONN_STR
+  let fileDB
   this.init = function () {
     MongoClient = require('mongodb').MongoClient
     DB_CONN_STR = 'mongodb://localhost:27017/'
+    const FileDB = require('./filedb')
+    fileDB = new FileDB('fileDB')
+    fileDB.init()
   }
   /* 这里是插入单条数据 */
   this.insertOne = function (data, callback) {
@@ -13,9 +17,19 @@ function mongodbModel (dbname) {
       }
       const dbo = db.db(dbname)
       const collection = dbo.collection(dbname)
-      collection.insertOne(data, (err, result) => {
-        callback(err, result)
-      })
+      if (data.pTaskBook.length > 0) {
+        fileDB.insertOne(data.pTaskBook[0].raw, (err, res) => {
+          console.log(err, res)
+          data.pTaskBook.push(res._id.toString())
+          collection.insertOne(data, (err, result) => {
+            callback(err, result)
+          })
+        })
+      } else {
+        collection.insertOne(data, (err, result) => {
+          callback(err, result)
+        })
+      }
     })
   }
   /* 这里是插入多条数据 */

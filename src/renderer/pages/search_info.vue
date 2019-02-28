@@ -120,6 +120,14 @@
                             width="80">
                     </el-table-column>
                     <el-table-column
+                            prop="pTaskBook"
+                            label="任务书ObjectID"
+                            sortable
+                            show-overflow-tooltip
+                            :formatter="formatter"
+                            min-width="200">
+                    </el-table-column>
+                    <el-table-column
                             prop="pYear"
                             label="立项年份"
                             sortable

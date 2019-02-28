@@ -39,12 +39,15 @@
     position: relative;
     width: 100%;
     height: 100vh;
-    overflow-y: auto;
+    overflow: hidden;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    padding-bottom: 50px;
     padding-left: 180px;
     padding-top: 50px;
+    .page {
+      height: 100%;
+      overflow-y: auto;
+    }
   }
 </style>

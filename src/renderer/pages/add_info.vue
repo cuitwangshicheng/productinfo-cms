@@ -140,14 +140,21 @@
           <el-row>
             <el-col :span="24">
               <el-form-item label="任务书">
-                <input type="file"/>
+                  <el-upload
+                          class="upload-demo"
+                          action="/"
+                          :auto-upload="false"
+                          :on-change="handleChange_taskBook"
+                          :file-list="formObj.pTaskBook">
+                      <el-button type="primary">点击上传</el-button>
+                  </el-upload>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="24">
               <el-form-item label="验收材料">
-                <input type="file"/>
+                <!--<input type="file" v-model="formObj.pCheckBook"/>-->
               </el-form-item>
             </el-col>
           </el-row>
@@ -212,7 +219,9 @@
           pCheckTime: '',
           pPrideFlag: false,
           pPrideContent: '',
-          pDes: ''
+          pDes: '',
+          pTaskBook: [],
+          pCheckBook: []
         },
         rules: {
           pSeriesNum: [
@@ -270,7 +279,11 @@
       }
     },
     methods: {
+      handleChange_taskBook (file, fileList) {
+        this.formObj.pTaskBook = fileList
+      },
       saveInfo (formName) {
+        console.log(this.formObj.pTaskBook)
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.saveDisabled = true
