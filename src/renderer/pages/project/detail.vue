@@ -141,14 +141,26 @@
                     <el-row>
                         <el-col :span="24">
                             <el-form-item label="任务书">
-                                <input type="file"/>
+                                <my-upload :old-file="oldFormObj.pTaskBook" @download-file="handleDownload" ref="pTaskBookFile"></my-upload>
+                                <el-button v-if="oldFormObj.pTaskBook.length>0"
+                                           size="mini"
+                                           type="text"
+                                           @click="handleDownload(oldFormObj.pTaskBook[0])">
+                                    下载原始文件
+                                </el-button>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row>
                         <el-col :span="24">
                             <el-form-item label="验收材料">
-                                <input type="file"/>
+                                <my-upload :old-file="oldFormObj.pCheckData" @download-file="handleDownload" ref="pCheckDataFile"></my-upload>
+                                <el-button v-if="oldFormObj.pCheckData.length>0"
+                                           size="mini"
+                                           type="text"
+                                           @click="handleDownload(oldFormObj.pCheckData[0])">
+                                    下载原始文件
+                                </el-button>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -166,8 +178,13 @@
 </template>
 <script>
   import MongoDB from 'mongodb'
+  import MyUpload from '../../components/myUpload'
+  import { ipcRenderer } from 'electron'
   export default {
     name: 'add-info',
+    components: {
+      MyUpload
+    },
     data () {
       var validatePStartDate = (rule, value, callback) => {
         const pEndDate = this.formObj.pEndDate
@@ -215,9 +232,14 @@
           pCheckTime: '',
           pPrideFlag: false,
           pPrideContent: '',
-          pDes: ''
+          pDes: '',
+          pTaskBook: [],
+          pCheckData: []
         },
-        oldFormObj: {},
+        oldFormObj: {
+          pTaskBook: [],
+          pCheckData: []
+        },
         rules: {
           pSeriesNum: [
             { required: true, message: '请输入项目编号', trigger: 'blur' }
@@ -275,6 +297,31 @@
       this.searchById()
     },
     methods: {
+      handleDownload (file) {
+        ipcRenderer.send('open-directory-dialog', 'openDirectory')
+        ipcRenderer.once('selectedItem', (e, path) => {
+          if (path === null) {
+            this.$message({
+              type: 'warning',
+              message: '请选择一个文件夹'
+            })
+          } else {
+            this.$filedb.findById(file, path, (doc) => {
+              if (doc.code === 0) {
+                this.$message({
+                  type: 'success',
+                  message: '文件下载成功'
+                })
+              } else {
+                this.$message({
+                  type: 'error',
+                  message: '文件下载失败'
+                })
+              }
+            })
+          }
+        })
+      },
       // 根据id查询
       searchById () {
         this.$db.find({_id: MongoDB.ObjectId(this.pId)}, (err, doc) => {
@@ -287,6 +334,7 @@
             console.log(doc)
             this.oldFormObj = doc[0]
             const {
+              _id,
               pSeriesNum,
               pName,
               pCharge,
@@ -304,9 +352,12 @@
               pCheckTime,
               pPrideFlag,
               pPrideContent,
-              pDes
+              pDes,
+              pTaskBook,
+              pCheckData
             } = doc[0]
             Object.assign(this.formObj, {
+              _id,
               pSeriesNum,
               pName,
               pCharge,
@@ -324,7 +375,9 @@
               pCheckTime,
               pPrideFlag,
               pPrideContent,
-              pDes
+              pDes,
+              pTaskBook,
+              pCheckData
             })
           }
         })
@@ -362,7 +415,9 @@
             const params = Object.assign({}, this.formObj, {
               pStartDate: new Date(`${pStartDate} 00:00:00`).getTime() / 1000,
               pEndDate: new Date(`${pEndDate} 23:59:59`).getTime() / 1000,
-              pCheckTime: pCheckTime === null ? '' : pCheckTime
+              pCheckTime: pCheckTime === null ? '' : pCheckTime,
+              pTaskBook: this.$refs['pTaskBookFile'].getFile(),
+              pCheckData: this.$refs['pCheckDataFile'].getFile()
             })
             this.$db.updateOne(this.oldFormObj, params, (err, doc) => {
               if (err) {
@@ -376,7 +431,7 @@
                   type: 'success',
                   message: '信息修改成功',
                   onClose: () => {
-                    this.$router.go(-1)
+                    this.$router.replace('/project')
                   }
                 })
               }

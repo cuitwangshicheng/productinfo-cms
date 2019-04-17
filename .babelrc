@@ -12,7 +12,7 @@
     "renderer": {
       "presets": [
         ["env", {
-          "modules": false
+          "targets": { "node": 7 }
         }],
         "stage-0"
       ]

@@ -3,14 +3,16 @@
             :default-active="defaultActive"
             class="el-menu-vertical-demo"
             :router="true">
-        <el-menu-item index="/add">
-            <i class="el-icon-edit-outline"></i>
-            <span slot="title">项目录入</span>
-        </el-menu-item>
-        <el-menu-item index="/search">
-            <i class="el-icon-document"></i>
-            <span slot="title">项目检索/导入/导出</span>
-        </el-menu-item>
+        <el-submenu index="1">
+            <template slot="title">
+                <i class="el-icon-tickets"></i>
+                <span>项目管理</span>
+            </template>
+            <el-menu-item index="/project">
+                <i class="el-icon-document"></i>
+                <span slot="title">项目信息</span>
+            </el-menu-item>
+        </el-submenu>
     </el-menu>
 </template>
 
@@ -18,7 +20,7 @@
   export default {
     computed: {
       defaultActive () {
-        return this.$route.path
+        return `/${this.$route.path.split('/')[1]}`
       }
     }
   }
@@ -31,5 +33,8 @@
         left: 0;
         bottom: 0;
         width: 180px;
+        .el-submenu .el-menu-item {
+            min-width: 180px;
+        }
     }
 </style>

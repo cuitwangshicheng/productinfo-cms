@@ -7,23 +7,23 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'index-page',
+      name: 'index',
       component: require('@/pages/index').default
     },
     {
-      path: '/add',
-      name: 'add-page',
-      component: require('@/pages/add_info').default
+      path: '/project',
+      name: 'project-index',
+      component: require('@/pages/project/index').default
     },
     {
-      path: '/search',
-      name: 'search-page',
-      component: require('@/pages/search_info').default
+      path: '/project/add',
+      name: 'project-add',
+      component: require('@/pages/project/add').default
     },
     {
-      path: '/edit/:id',
-      name: 'edit-page',
-      component: require('@/pages/edit_info').default
+      path: '/project/detail/:id',
+      name: 'project-detail',
+      component: require('@/pages/project/detail').default
     },
     {
       path: '*',

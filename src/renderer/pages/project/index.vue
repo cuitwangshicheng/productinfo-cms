@@ -1,8 +1,29 @@
 <template>
     <div class="page">
-        <el-breadcrumb separator="/">
-            <el-breadcrumb-item>科研项目信息检索</el-breadcrumb-item>
-        </el-breadcrumb>
+        <div class="page-nav-wrapper">
+            <el-breadcrumb separator="/">
+                <el-breadcrumb-item>科研项目信息检索</el-breadcrumb-item>
+            </el-breadcrumb>
+            <div class="page-nav-operate">
+                <el-upload
+                        ref="upload"
+                        action="/wm/upload/"
+                        :show-file-list="false"
+                        :on-change="importExcel"
+                        :auto-upload="false">
+                    <el-button
+                            :disabled="importExcelDisabled"
+                            slot="trigger"
+                            size="mini">
+                        导入excel
+                    </el-button>
+                </el-upload>
+                <el-button @click="exportExcel" size="mini">导出excel</el-button>
+                <el-button size="mini" type="primary">
+                    <router-link to="/project/add">新增</router-link>
+                </el-button>
+            </div>
+        </div>
         <div class="content">
             <div class="search-bar">
                 <el-form size="mini"
@@ -87,27 +108,14 @@
 
                 </div>
             </div>
-            <el-form class="operate-bar" size="mini" :inline="true">
-                <el-form-item>
-                    <el-button @click="exportExcel" type="primary">导出excel</el-button>
-                </el-form-item>
-                <el-form-item>
-                    <el-upload
-                            ref="upload"
-                            action="/wm/upload/"
-                            :show-file-list="false"
-                            :on-change="importExcel"
-                            :auto-upload="false">
-                        <el-button
-                                type="primary"
-                                :disabled="importExcelDisabled"
-                                slot="trigger"
-                                size="mini">
-                            导入excel
-                        </el-button>
-                    </el-upload>
-                </el-form-item>
-            </el-form>
+            <!--<el-form class="operate-bar" size="mini" :inline="true">-->
+                <!--<el-form-item>-->
+
+                <!--</el-form-item>-->
+                <!--<el-form-item>-->
+
+                <!--</el-form-item>-->
+            <!--</el-form>-->
             <div class="main">
                 <el-table
                         :data="tableData"
@@ -118,14 +126,6 @@
                             label="序号"
                             type="index"
                             width="80">
-                    </el-table-column>
-                    <el-table-column
-                            prop="pTaskBook"
-                            label="任务书ObjectID"
-                            sortable
-                            show-overflow-tooltip
-                            :formatter="formatter"
-                            min-width="200">
                     </el-table-column>
                     <el-table-column
                             prop="pYear"
@@ -558,7 +558,7 @@
       },
       // 编辑
       handleEdit (index, row) {
-        this.$router.push(`/edit/${row._id.toString()}`)
+        this.$router.push(`/project/detail/${row._id.toString()}`)
       },
       // 分页
       handleSizeChange (val) {

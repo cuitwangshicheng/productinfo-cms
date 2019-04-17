@@ -33,10 +33,10 @@ export default {
   name: 'index_page',
   methods: {
     goAddPage () {
-      this.$router.push('/add')
+      this.$router.push('/project/add')
     },
     goSearchPage () {
-      this.$router.push('/search')
+      this.$router.push('/project')
     }
   }
 }
